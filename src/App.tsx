@@ -1,6 +1,7 @@
 // Import everything needed to use the `useQuery` hook
 import { useQuery, gql } from '@apollo/client'
 import LoadingPage from './components/Loading/Loading'
+import { Button } from './components/ui/button'
 
 interface IOrders {
   instrument: string
@@ -22,7 +23,7 @@ function DisplayLocations() {
 
   return data.orders.map(({ instrument }: IOrders) => (
     <div key={instrument}>
-      <h3 className="bg-red-400">{instrument}</h3>
+      <Button className="bg-red-400">{instrument}</Button>
     </div>
   ))
 }

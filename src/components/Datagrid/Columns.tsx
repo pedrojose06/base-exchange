@@ -1,27 +1,55 @@
-'use client'
-
 import { ColumnDef } from '@tanstack/react-table'
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
+export type Order = {
   id: string
-  amount: number
-  status: 'pending' | 'processing' | 'success' | 'failed'
-  email: string
+  instrument: string
+  side: number // 1 for buy, 0 for sell
+  price: number
+  quantity: number
+  remainingQuantity: number
+  status: 'open' | 'closed' | 'canceled'
+  createdAt: string
+  updatedAt: string
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Order>[] = [
+  {
+    accessorKey: 'id',
+    header: 'ID',
+  },
+  {
+    accessorKey: 'instrument',
+    header: 'Instrument',
+  },
+  {
+    accessorKey: 'side',
+    header: 'Side',
+    cell: ({ getValue }) => (getValue() === 1 ? 'Buy' : 'Sell'), // Custom rendering for side
+  },
+  {
+    accessorKey: 'price',
+    header: 'Price',
+  },
+  {
+    accessorKey: 'quantity',
+    header: 'Quantity',
+  },
+  {
+    accessorKey: 'remainingQuantity',
+    header: 'Remaining Quantity',
+  },
   {
     accessorKey: 'status',
     header: 'Status',
   },
   {
-    accessorKey: 'email',
-    header: 'Email',
+    accessorKey: 'createdAt',
+    header: 'Created At',
+    cell: ({ getValue }) => new Date(getValue() as string).toLocaleString(), // Format date
   },
   {
-    accessorKey: 'amount',
-    header: 'Amount',
+    accessorKey: 'updatedAt',
+    header: 'Updated At',
+    cell: ({ getValue }) => new Date(getValue() as string).toLocaleString(), // Format date
   },
 ]

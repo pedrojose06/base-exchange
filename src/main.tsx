@@ -1,12 +1,8 @@
 import * as ReactDOM from 'react-dom/client'
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
+import { ApolloProvider } from '@apollo/client'
 import App from './App'
 import './index.css'
-
-const client = new ApolloClient({
-  uri: import.meta.env.VITE_API_URL,
-  cache: new InMemoryCache(),
-})
+import { client } from './graphql/client'
 
 // Supported in React 18+
 const rootElement = document.getElementById('root')

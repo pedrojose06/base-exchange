@@ -8,7 +8,10 @@ export const GET_ORDERS = gql`
       side
       price
       quantity
+      remainingQuantity
       status
+      createdAt
+      updatedAt
     }
   }
 `

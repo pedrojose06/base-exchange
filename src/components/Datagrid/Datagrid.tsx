@@ -16,19 +16,14 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useOrders } from '@/hooks/useOrder'
+import { columns } from './Columns'
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-}
-
-export function DataGrid<TData, TValue>({
-  columns,
-}: DataTableProps<TData, TValue>) {
+export function DataGrid() {
   const { orders } = useOrders()
 
   const table = useReactTable({
     data: orders,
-    columns,
+    columns: columns as ColumnDef<unknown, unknown>[],
     getCoreRowModel: getCoreRowModel(),
   })
 

@@ -3,13 +3,48 @@ import { ColumnDef } from '@tanstack/react-table'
 export type Order = {
   id: string
   instrument: string
-  side: number // 1 for buy, 0 for sell
+  side: number
   price: number
   quantity: number
   remainingQuantity: number
-  status: 'open' | 'closed' | 'pending'
+  status: OrderStatus
   createdAt: string
   updatedAt: string
+}
+
+type OrderStatus = 'open' | 'closed' | 'pending' | 'canceled'
+
+const statusPtBr = (status: OrderStatus) => {
+  switch (status) {
+    case 'open':
+      return 'Aberto'
+    case 'closed':
+      return 'Fechado'
+    case 'pending':
+      return 'Pendente'
+    case 'canceled':
+      return 'Cancelada'
+    default:
+      return 'Desconhecido'
+  }
+}
+
+const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
+  status,
+}) => {
+  return (
+    <span
+      className={`${
+        status === 'open'
+          ? 'text-green-500'
+          : status === 'pending'
+            ? 'text-blue-500'
+            : 'text-red-500'
+      } font-bold`}
+    >
+      {statusPtBr(status)}
+    </span>
+  )
 }
 
 export const columns: ColumnDef<Order>[] = [
@@ -24,7 +59,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'side',
     header: 'Lado (Compra/Venda)',
-    cell: ({ getValue }) => (getValue() === 1 ? 'Compra' : 'Venda'), // Custom rendering for side
+    cell: ({ getValue }) => (getValue() === 1 ? 'Compra' : 'Venda'),
   },
   {
     accessorKey: 'price',
@@ -49,54 +84,30 @@ export const columns: ColumnDef<Order>[] = [
     accessorKey: 'status',
     header: 'Status',
     cell: ({ getValue }) => {
-      const status = getValue() as 'open' | 'closed' | 'pending'
-      const statusPtBr = () => {
-        switch (status) {
-          case 'open':
-            return 'Aberto'
-          case 'closed':
-            return 'Fechado'
-          case 'pending':
-            return 'Pendente'
-          default:
-            return 'Desconhecido'
-        }
-      }
-      return (
-        <span
-          className={`${
-            status === 'open'
-              ? 'text-green-500'
-              : status === 'pending'
-                ? 'text-blue-500'
-                : 'text-red-500'
-          } font-bold`}
-        >
-          {statusPtBr()}
-        </span>
-      )
+      const status = getValue() as OrderStatus
+      return <OrderStatusComponent status={status} />
     },
   },
   {
-    accessorKey: 'createdAtDate', // Unique key for the date column
+    accessorKey: 'createdAtDate',
     header: 'Data de Criação',
     cell: ({ getValue, row }) => {
-      const value = row.original.createdAt // Use the original row data
+      const value = row.original.createdAt
       const date = new Date(value)
       return Number.isNaN(date.getTime())
         ? 'Data Inválida'
-        : date.toLocaleDateString('pt-BR') // Format in Brazilian date format
+        : date.toLocaleDateString('pt-BR')
     },
   },
   {
-    accessorKey: 'createdAtTime', // Unique key for the time column
+    accessorKey: 'createdAtTime',
     header: 'Hora de Criação',
     cell: ({ getValue, row }) => {
-      const value = row.original.createdAt // Use the original row data
+      const value = row.original.createdAt
       const date = new Date(value)
       return Number.isNaN(date.getTime())
         ? 'Hora Inválida'
-        : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) // Extract only hour and minutes
+        : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     },
   },
 ]

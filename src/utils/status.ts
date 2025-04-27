@@ -3,16 +3,35 @@ import { OrderStatus } from '@/interfaces/order'
 export const getStatusColor = (status: string) => {
   switch (status) {
     case 'open':
-      return 'green-300'
+      return 'bg-green-300'
     case 'pending':
-      return 'blue-300'
+      return 'bg-blue-300'
     case 'closed':
-      return 'orange-300'
+      return 'bg-orange-300'
     case 'canceled':
-      return 'red-300'
+      return 'bg-red-300'
     default:
-      return 'gray-300'
+      return 'bg-gray-300'
   }
+}
+
+export const getStatusTextColor = (status: string) => {
+  switch (status) {
+    case 'open':
+      return 'text-green-300'
+    case 'pending':
+      return 'text-blue-300'
+    case 'closed':
+      return 'text-orange-300'
+    case 'canceled':
+      return 'text-red-300'
+    default:
+      return 'text-gray-300'
+  }
+}
+
+export const getStatusBgColor = (status: string) => {
+  return `bg-${getStatusColor(status)}`
 }
 
 export const statusPtBr = (status: OrderStatus) => {

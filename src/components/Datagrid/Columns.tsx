@@ -1,5 +1,5 @@
 import { Order, OrderStatus } from '@/interfaces/order'
-import { getStatusColor, statusPtBr } from '@/utils/status'
+import { getStatusTextColor, statusPtBr } from '@/utils/status'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 
@@ -7,7 +7,7 @@ const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
   status,
 }) => {
   return (
-    <span className={`text-${getStatusColor(status)} font-bold`}>
+    <span className={`${getStatusTextColor(status)} font-bold`}>
       {statusPtBr(status)}
     </span>
   )

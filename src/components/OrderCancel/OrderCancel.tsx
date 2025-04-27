@@ -26,18 +26,18 @@ const OrderCancel = ({ orderId, open, onClose }: IOrderCancel) => {
             <b>{orderId}</b>?
           </span>
         </DialogHeader>
-        <DialogDescription>
-          <div className="flex justify-evenly">
-            <Button variant="destructive" className="mt-4">
-              Sim
-            </Button>
-            <Button variant="outline" className="mt-4" onClick={onClose}>
-              Não
-            </Button>
-          </div>
-        </DialogDescription>
+        <DialogDescription>Por favor, confirme sua escolha.</DialogDescription>
+        <div className="flex justify-evenly">
+          <Button variant="destructive" className="mt-4">
+            Sim
+          </Button>
+          <Button variant="outline" className="mt-4" onClick={onClose}>
+            Não
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )
 }
+
 export default OrderCancel

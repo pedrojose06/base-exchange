@@ -54,7 +54,7 @@ const OrderDetail = ({ orderId, open, onClose }: IOrderDetail) => {
                 </p>
                 <div className="flex items-center gap-2">
                   <div
-                    className={`h-4 w-4 rounded-full bg-${getStatusColor(status)}`}
+                    className={`h-4 w-4 rounded-full ${getStatusColor(status)}`}
                     title={`Status: ${status}`}
                   />
                   <h4>{instrument}</h4>

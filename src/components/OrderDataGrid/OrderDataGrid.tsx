@@ -1,14 +1,12 @@
 'use client'
 
-import {} from '@tanstack/react-table'
-
-import {} from '@/components/ui/table'
 import { useOrders } from '@/hooks/useOrder'
 import { createColumns } from './Columns'
-import OrderDetail from '@/components/OrderDetail/OrderDetail'
-import { useState } from 'react'
-import OrderCancel from '../OrderCancel/OrderCancel'
+import { lazy, useState } from 'react'
 import DataGrid from '../DataGrid/DataGrid'
+
+const OrderCancel = lazy(() => import('../OrderCancel/OrderCancel'))
+const OrderDetail = lazy(() => import('../OrderDetail/OrderDetail'))
 
 export function OrderDataGrid() {
   const { orders } = useOrders()

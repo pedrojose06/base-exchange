@@ -20,7 +20,7 @@ import OrderDetail from '@/components/OrderDetail/OrderDetail'
 import { useState } from 'react'
 import OrderCancel from '../OrderCancel/OrderCancel'
 
-export function DataGrid() {
+export function OrderDataGrid() {
   const { orders } = useOrders()
 
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)

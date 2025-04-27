@@ -1,10 +1,10 @@
-import { DataGrid } from '@/components/DataGrid/DataGrid'
+import { OrderDataGrid } from '@/components/OrderDataGrid/OrderDataGrid'
 
 const Home = () => {
   return (
     <div>
       <h1>Home</h1>
-      <DataGrid />
+      <OrderDataGrid />
     </div>
   )
 }

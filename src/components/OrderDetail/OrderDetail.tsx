@@ -10,15 +10,13 @@ import { useOrderById } from '@/hooks/useOrderById'
 import { getStatusColor } from '@/utils/status'
 import OrderDetailField from '../OrderDetailField/OrderDetailField'
 
-const OrderDetail = ({
-  orderId,
-  open,
-  onClose,
-}: {
+interface IOrderDetail {
   orderId: string
   open: boolean
   onClose: () => void
-}) => {
+}
+
+const OrderDetail = ({ orderId, open, onClose }: IOrderDetail) => {
   const { data, loading } = useOrderById(orderId)
 
   if (!data) return null
@@ -36,7 +34,6 @@ const OrderDetail = ({
     createdAtTime,
     updatedAtTime,
   } = data
-  console.log('OrderDetail data:', status)
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>

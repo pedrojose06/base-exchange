@@ -14,7 +14,7 @@ const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
 }
 
 export const createColumns = (
-  openOrderDetails: (id: string) => void
+  openOrderDetails: (id: string, action: string) => void
 ): ColumnDef<Order>[] => [
   {
     accessorKey: 'id',
@@ -87,7 +87,7 @@ export const createColumns = (
         <div className="flex items-center justify-center gap-2">
           <button
             type="button"
-            onClick={() => openOrderDetails(order.id)} // Use the passed function
+            onClick={() => openOrderDetails(order.id, 'detail')}
             className="rounded p-2 text-blue-500 transition hover:bg-blue-100 hover:text-blue-700"
             aria-label={`Edit order ${order.id}`}
           >
@@ -95,7 +95,7 @@ export const createColumns = (
           </button>
           <button
             type="button"
-            onClick={() => console.log('Delete order:', order.id)}
+            onClick={() => openOrderDetails(order.id, 'cancel')}
             className="rounded p-2 text-red-500 transition hover:bg-red-100 hover:text-red-700"
             aria-label={`Delete order ${order.id}`}
           >

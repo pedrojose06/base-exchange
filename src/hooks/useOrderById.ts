@@ -35,8 +35,6 @@ export function useOrderById(id: string) {
       }
     : null
 
-  console.log('Formatted order:', order)
-
   return {
     data: order,
     loading,

@@ -18,25 +18,26 @@ import { useOrders } from '@/hooks/useOrder'
 import { createColumns } from './Columns'
 import OrderDetail from '@/components/OrderDetail/OrderDetail'
 import { useState } from 'react'
+import OrderCancel from '../OrderCancel/OrderCancel'
 
 export function DataGrid() {
   const { orders } = useOrders()
 
-  // State to manage the selected order and dialog visibility
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
   const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false)
+  const [isOrderCancelOpen, setIsOrderCancelOpen] = useState(false)
 
-  const openOrderDetails = (orderId: string) => {
-    setSelectedOrderId(orderId) // Set the selected order ID
-    setIsOrderDetailOpen(true) // Open the dialog
+  const openOrderDetails = (orderId: string, action: string) => {
+    setSelectedOrderId(orderId)
+    if (action === 'cancel') return setIsOrderCancelOpen(true)
+    setIsOrderDetailOpen(true)
   }
 
   const closeOrderDetails = () => {
-    setSelectedOrderId(null) // Clear the selected order ID
-    setIsOrderDetailOpen(false) // Close the dialog
+    setSelectedOrderId(null)
+    setIsOrderDetailOpen(false)
   }
 
-  // Pass the openOrderDetails function to the columns
   const columns = createColumns(openOrderDetails)
 
   const table = useReactTable({
@@ -88,10 +89,18 @@ export function DataGrid() {
         </TableBody>
       </Table>
 
-      {selectedOrderId && (
+      {selectedOrderId && isOrderDetailOpen && (
         <OrderDetail
           orderId={selectedOrderId}
           open={isOrderDetailOpen}
+          onClose={closeOrderDetails}
+        />
+      )}
+
+      {selectedOrderId && isOrderCancelOpen && (
+        <OrderCancel
+          orderId={selectedOrderId}
+          open={isOrderCancelOpen}
           onClose={closeOrderDetails}
         />
       )}

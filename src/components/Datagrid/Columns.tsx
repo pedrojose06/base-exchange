@@ -1,4 +1,5 @@
-import { Order, OrderStatus } from '@/interfaces/order'
+import { OrderStatus } from '@/constants/order'
+import { IOrder } from '@/interfaces/order'
 import { getStatusTextColor, statusPtBr } from '@/utils/status'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaTrash } from 'react-icons/fa'
@@ -15,7 +16,7 @@ const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
 
 export const createColumns = (
   openOrderDetails: (id: string, action: string) => void
-): ColumnDef<Order>[] => [
+): ColumnDef<IOrder>[] => [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -82,7 +83,7 @@ export const createColumns = (
     accessorKey: 'actions',
     header: 'Ações',
     cell: ({ row }) => {
-      const order = row.original as Order
+      const order = row.original as IOrder
       return (
         <div className="flex items-center justify-center gap-2">
           <button

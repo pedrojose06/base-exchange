@@ -1,4 +1,6 @@
-export type Order = {
+import { OrderStatus } from '@/constants/order'
+
+export interface IOrder {
   id: string
   instrument: string
   side: number
@@ -14,5 +16,3 @@ export type Order = {
   createdAtTime: string
   updatedAtTime: string
 }
-
-export type OrderStatus = 'open' | 'closed' | 'pending' | 'canceled'

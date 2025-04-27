@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { GET_ORDER_BY_ID } from '@/graphql/queries/getOrders'
 import { statusPtBr } from '@/utils/status'
-import { Order } from '@/interfaces/order'
+import { IOrder } from '@/interfaces/order'
 
 export function useOrderById(id: string) {
   const { data, loading, error } = useQuery(GET_ORDER_BY_ID, {
@@ -9,7 +9,7 @@ export function useOrderById(id: string) {
   })
 
   // Format the order data
-  const order: Order = data?.order
+  const order: IOrder = data?.order
     ? {
         ...data.order,
         price: data.order.price.toLocaleString('pt-BR', {

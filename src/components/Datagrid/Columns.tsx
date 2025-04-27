@@ -1,53 +1,21 @@
+import { Order, OrderStatus } from '@/interfaces/order'
+import { getStatusColor, statusPtBr } from '@/utils/status'
 import { ColumnDef } from '@tanstack/react-table'
-
-export type Order = {
-  id: string
-  instrument: string
-  side: number
-  price: number
-  quantity: number
-  remainingQuantity: number
-  status: OrderStatus
-  createdAt: string
-  updatedAt: string
-}
-
-type OrderStatus = 'open' | 'closed' | 'pending' | 'canceled'
-
-const statusPtBr = (status: OrderStatus) => {
-  switch (status) {
-    case 'open':
-      return 'Aberto'
-    case 'closed':
-      return 'Fechado'
-    case 'pending':
-      return 'Pendente'
-    case 'canceled':
-      return 'Cancelada'
-    default:
-      return 'Desconhecido'
-  }
-}
+import { FaEdit, FaTrash } from 'react-icons/fa'
 
 const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
   status,
 }) => {
   return (
-    <span
-      className={`${
-        status === 'open'
-          ? 'text-green-500'
-          : status === 'pending'
-            ? 'text-blue-500'
-            : 'text-red-500'
-      } font-bold`}
-    >
+    <span className={`text-${getStatusColor(status)} font-bold`}>
       {statusPtBr(status)}
     </span>
   )
 }
 
-export const columns: ColumnDef<Order>[] = [
+export const createColumns = (
+  openOrderDetails: (id: string) => void
+): ColumnDef<Order>[] => [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -91,7 +59,7 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'createdAtDate',
     header: 'Data de Criação',
-    cell: ({ getValue, row }) => {
+    cell: ({ row }) => {
       const value = row.original.createdAt
       const date = new Date(value)
       return Number.isNaN(date.getTime())
@@ -102,12 +70,39 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'createdAtTime',
     header: 'Hora de Criação',
-    cell: ({ getValue, row }) => {
+    cell: ({ row }) => {
       const value = row.original.createdAt
       const date = new Date(value)
       return Number.isNaN(date.getTime())
         ? 'Hora Inválida'
         : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    },
+  },
+  {
+    accessorKey: 'actions',
+    header: 'Ações',
+    cell: ({ row }) => {
+      const order = row.original as Order
+      return (
+        <div className="flex items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => openOrderDetails(order.id)} // Use the passed function
+            className="rounded p-2 text-blue-500 transition hover:bg-blue-100 hover:text-blue-700"
+            aria-label={`Edit order ${order.id}`}
+          >
+            <FaEdit />
+          </button>
+          <button
+            type="button"
+            onClick={() => console.log('Delete order:', order.id)}
+            className="rounded p-2 text-red-500 transition hover:bg-red-100 hover:text-red-700"
+            aria-label={`Delete order ${order.id}`}
+          >
+            <FaTrash />
+          </button>
+        </div>
+      )
     },
   },
 ]

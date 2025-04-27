@@ -1,14 +1,12 @@
 import React from 'react'
-import './Loading.css' // Import the CSS for the animation
 
 const Loading: React.FC = () => {
   return (
-    <div className="loading-container">
-      <div className="coin">
-        <div className="coin-front" />
-        <div className="coin-back" />
+    <div className="flex h-32 flex-col items-center justify-center">
+      <div className="relative flex h-16 w-16 items-center justify-center">
+        <div className="absolute h-full w-full animate-spin rounded-full border-4 border-yellow-500 border-t-transparent" />
       </div>
-      <p>Carregando...</p>
+      <p className="mt-5 animate-pulse text-gray-800 text-lg">Carregando...</p>
     </div>
   )
 }

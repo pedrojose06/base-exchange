@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -16,14 +15,33 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { useOrders } from '@/hooks/useOrder'
-import { columns } from './Columns'
+import { createColumns } from './Columns'
+import OrderDetail from '@/components/OrderDetail/OrderDetail'
+import { useState } from 'react'
 
 export function DataGrid() {
   const { orders } = useOrders()
 
+  // State to manage the selected order and dialog visibility
+  const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
+  const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false)
+
+  const openOrderDetails = (orderId: string) => {
+    setSelectedOrderId(orderId) // Set the selected order ID
+    setIsOrderDetailOpen(true) // Open the dialog
+  }
+
+  const closeOrderDetails = () => {
+    setSelectedOrderId(null) // Clear the selected order ID
+    setIsOrderDetailOpen(false) // Close the dialog
+  }
+
+  // Pass the openOrderDetails function to the columns
+  const columns = createColumns(openOrderDetails)
+
   const table = useReactTable({
     data: orders,
-    columns: columns as ColumnDef<unknown, unknown>[],
+    columns,
     getCoreRowModel: getCoreRowModel(),
   })
 
@@ -33,18 +51,16 @@ export function DataGrid() {
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id} className="text-center">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                )
-              })}
+              {headerGroup.headers.map((header) => (
+                <TableHead key={header.id} className="text-center">
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </TableHead>
+              ))}
             </TableRow>
           ))}
         </TableHeader>
@@ -71,6 +87,14 @@ export function DataGrid() {
           )}
         </TableBody>
       </Table>
+
+      {selectedOrderId && (
+        <OrderDetail
+          orderId={selectedOrderId}
+          open={isOrderDetailOpen}
+          onClose={closeOrderDetails}
+        />
+      )}
     </div>
   )
 }

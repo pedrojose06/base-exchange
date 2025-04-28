@@ -21,7 +21,7 @@ export const getStatusTextColor = (status: string) => {
       return 'text-green-300'
     case 'pending':
       return 'text-blue-300'
-    case 'closed':
+    case 'executed':
       return 'text-orange-300'
     case 'canceled':
       return 'text-red-300'
@@ -35,11 +35,11 @@ export const getStatusBgColor = (status: string) => {
 }
 
 export const statusPtBr = (status: OrderStatus) => {
-  switch (status) {
+  switch (status.toLocaleLowerCase()) {
     case 'open':
       return 'Aberta'
-    case 'closed':
-      return 'Fechada'
+    case 'executed':
+      return 'Executada'
     case 'pending':
       return 'Pendente'
     case 'canceled':

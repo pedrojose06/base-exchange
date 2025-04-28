@@ -1,6 +1,6 @@
 export const ORDER_STATUS = {
   OPEN: 'Aberta',
-  CLOSED: 'Fechada',
+  EXECUTED: 'Execudada',
   PENDING: 'Pendente',
   CANCELED: 'Cancelada',
 } as const

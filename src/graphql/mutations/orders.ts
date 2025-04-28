@@ -10,3 +10,14 @@ export const SEND_ORDER_CANCEL = gql`
     }
   }
 `
+
+export const SEND_ORDER_CREATE = gql`
+  mutation InsertOrder($order: OrderInput!) {
+    insertOrder(order: $order) {
+      id
+      instrument
+      status
+      createdAt
+    }
+  }
+`

@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client'
-import { GET_ORDER_BY_ID } from '@/graphql/queries/getOrders'
+import { GET_ORDER_BY_ID } from '@/graphql/queries/orders'
 import { statusPtBr } from '@/utils/status'
 import { IOrder } from '@/interfaces/order'
 

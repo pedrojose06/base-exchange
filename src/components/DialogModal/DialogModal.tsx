@@ -25,13 +25,15 @@ const DialogModal = ({ title, subtitle, open, onClose, children }: IDialog) => {
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(title) }}
             />
           )}
+        </DialogHeader>
+        <DialogDescription>
           {subtitle && (
             <span
               dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(subtitle) }}
             />
           )}
-        </DialogHeader>
-        <DialogDescription>{children}</DialogDescription>
+        </DialogDescription>
+        {children}
       </DialogContent>
     </Dialog>
   )

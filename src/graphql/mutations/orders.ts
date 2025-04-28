@@ -18,6 +18,10 @@ export const SEND_ORDER_CREATE = gql`
       instrument
       status
       createdAt
+      side
+      price
+      quantity
+      remainingQuantity
     }
   }
 `

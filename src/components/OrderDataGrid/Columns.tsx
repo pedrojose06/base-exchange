@@ -34,7 +34,10 @@ export const createColumns = (
     accessorKey: 'price',
     header: 'Preço',
     cell: ({ getValue }) => {
-      const value = getValue() as number
+      const value = getValue() as number | undefined
+      if (value === undefined || value === null) {
+        return 'N/A' // Fallback for undefined or null values
+      }
       return value.toLocaleString('pt-BR', {
         style: 'currency',
         currency: 'BRL',

@@ -1,9 +1,12 @@
 import { useMutation } from '@apollo/client'
 import { SEND_ORDER_CREATE } from '@/graphql/mutations/orders'
+import { atomOrderList } from '@/atoms/order'
+import { useAtom } from 'jotai'
 
 const useOrderCreate = () => {
   const [createOrderMutation, { data, loading, error }] =
     useMutation(SEND_ORDER_CREATE)
+  const [orderList, setOrderList] = useAtom(atomOrderList)
 
   const createOrder = async (order: {
     instrument: string
@@ -15,7 +18,8 @@ const useOrderCreate = () => {
       const response = await createOrderMutation({
         variables: { order },
       })
-      return response.data.insertOrder
+      setOrderList([...orderList, response.data.insertOrder])
+      return orderList
     } catch (err) {
       throw err
     }

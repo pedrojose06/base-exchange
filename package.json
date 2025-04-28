@@ -19,6 +19,7 @@
     "clsx": "^2.1.1",
     "dompurify": "^3.2.5",
     "graphql": "^16.10.0",
+    "jotai": "^2.12.3",
     "lucide-react": "^0.503.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

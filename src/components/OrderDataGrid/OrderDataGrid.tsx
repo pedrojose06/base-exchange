@@ -1,6 +1,6 @@
 'use client'
 
-import { useOrders } from '@/hooks/useOrder'
+import { useOrders } from '@/hooks/useOrders'
 import { createColumns } from './Columns'
 import { lazy, useState } from 'react'
 import DataGrid from '../DataGrid/DataGrid'

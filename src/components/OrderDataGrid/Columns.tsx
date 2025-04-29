@@ -1,4 +1,4 @@
-import { OrderStatus } from '@/constants/order'
+import { ORDER_GRID_COLUMNS, OrderStatus } from '@/constants/order'
 import { IOrder } from '@/interfaces/order'
 import { getStatusTextColor, statusPtBr } from '@/utils/status'
 import { ColumnDef } from '@tanstack/react-table'
@@ -35,26 +35,26 @@ export const createColumns = (
   openOrderDetails: (id: string, action: string) => void
 ): ColumnDef<IOrder>[] => [
   {
-    accessorKey: 'id',
+    accessorKey: ORDER_GRID_COLUMNS.ID,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="ID" />
     },
   },
   {
-    accessorKey: 'instrument',
+    accessorKey: ORDER_GRID_COLUMNS.INSTRUMENT,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="Instrumento" />
     },
   },
   {
-    accessorKey: 'side',
+    accessorKey: ORDER_GRID_COLUMNS.SIDE,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="Compra/Venda" />
     },
     cell: ({ getValue }) => (getValue() === 1 ? 'Compra' : 'Venda'),
   },
   {
-    accessorKey: 'price',
+    accessorKey: ORDER_GRID_COLUMNS.PRICE,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="Preço" />
     },
@@ -70,13 +70,13 @@ export const createColumns = (
     },
   },
   {
-    accessorKey: 'quantity',
+    accessorKey: ORDER_GRID_COLUMNS.QUANTITY,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="Quantidade" />
     },
   },
   {
-    accessorKey: 'remainingQuantity',
+    accessorKey: ORDER_GRID_COLUMNS.REMAINING_QUANTITY,
     header: ({ column }) => {
       return (
         <OrdenationButton column={column} columnName="Quantidade Restante" />
@@ -84,7 +84,7 @@ export const createColumns = (
     },
   },
   {
-    accessorKey: 'status',
+    accessorKey: ORDER_GRID_COLUMNS.STATUS,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="Status" />
     },
@@ -94,7 +94,7 @@ export const createColumns = (
     },
   },
   {
-    accessorKey: 'createdAtDate',
+    accessorKey: ORDER_GRID_COLUMNS.CREATE_DATE,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="Data de Criação" />
     },
@@ -107,7 +107,7 @@ export const createColumns = (
     },
   },
   {
-    accessorKey: 'createdAtTime',
+    accessorKey: ORDER_GRID_COLUMNS.CREATE_TIME,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="Hora da Criação" />
     },

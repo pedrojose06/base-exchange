@@ -8,7 +8,6 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
 } from '@tanstack/react-table'
-import { Input } from '@/components/ui/input'
 
 import {
   Table,
@@ -19,6 +18,7 @@ import {
   TableRow,
 } from '../ui/table'
 import { useState } from 'react'
+import DataGridFilter from '../DataGridFilter/DataGridFilter'
 
 interface IDataGrid {
   content: any
@@ -27,6 +27,7 @@ interface IDataGrid {
 const DataGrid = ({ content, columns }: IDataGrid) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [globalFilter, setGlobalFilter] = useState<string>('') // Add global filter state
 
   const table = useReactTable({
     data: content,
@@ -36,25 +37,17 @@ const DataGrid = ({ content, columns }: IDataGrid) => {
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: 'includesString',
     state: {
       sorting,
       columnFilters,
+      globalFilter,
     },
   })
+
   return (
     <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={
-            (table.getColumn('instrument')?.getFilterValue() as string) ?? ''
-          }
-          onChange={(event) =>
-            table.getColumn('instrument')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
+      <DataGridFilter setGlobalFilter={setGlobalFilter} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

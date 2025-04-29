@@ -3,6 +3,8 @@ import { IOrder } from '@/interfaces/order'
 import { getStatusTextColor, statusPtBr } from '@/utils/status'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaTrash } from 'react-icons/fa'
+import { ArrowUpDown } from 'lucide-react'
+import { Button } from '../ui/button'
 
 const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
   status,
@@ -14,25 +16,48 @@ const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
   )
 }
 
+const OrdenationButton: React.FC<{
+  column: any
+  columnName: string
+}> = ({ column, columnName }) => {
+  return (
+    <Button
+      variant="ghost"
+      onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+    >
+      {columnName}
+      <ArrowUpDown className="ml-2 h-4 w-4" />
+    </Button>
+  )
+}
+
 export const createColumns = (
   openOrderDetails: (id: string, action: string) => void
 ): ColumnDef<IOrder>[] => [
   {
     accessorKey: 'id',
-    header: 'ID',
+    header: ({ column }) => {
+      return <OrdenationButton column={column} columnName="ID" />
+    },
   },
   {
     accessorKey: 'instrument',
-    header: 'Instrumento',
+    header: ({ column }) => {
+      return <OrdenationButton column={column} columnName="Instrumento" />
+    },
   },
   {
     accessorKey: 'side',
-    header: 'Lado (Compra/Venda)',
+    header: ({ column }) => {
+      return <OrdenationButton column={column} columnName="Compra/Venda" />
+    },
     cell: ({ getValue }) => (getValue() === 1 ? 'Compra' : 'Venda'),
   },
   {
     accessorKey: 'price',
-    header: 'Preço',
+    header: ({ column }) => {
+      return <OrdenationButton column={column} columnName="Preço" />
+    },
     cell: ({ getValue }) => {
       const value = getValue() as number | undefined
       if (value === undefined || value === null) {
@@ -46,15 +71,23 @@ export const createColumns = (
   },
   {
     accessorKey: 'quantity',
-    header: 'Quantidade',
+    header: ({ column }) => {
+      return <OrdenationButton column={column} columnName="Quantidade" />
+    },
   },
   {
     accessorKey: 'remainingQuantity',
-    header: 'Quantidade Restante',
+    header: ({ column }) => {
+      return (
+        <OrdenationButton column={column} columnName="Quantidade Restante" />
+      )
+    },
   },
   {
     accessorKey: 'status',
-    header: 'Status',
+    header: ({ column }) => {
+      return <OrdenationButton column={column} columnName="Status" />
+    },
     cell: ({ getValue }) => {
       const status = getValue() as OrderStatus
       return <OrderStatusComponent status={status} />
@@ -62,7 +95,9 @@ export const createColumns = (
   },
   {
     accessorKey: 'createdAtDate',
-    header: 'Data de Criação',
+    header: ({ column }) => {
+      return <OrdenationButton column={column} columnName="Data de Criação" />
+    },
     cell: ({ row }) => {
       const value = row.original.createdAt
       const date = new Date(value)
@@ -73,7 +108,9 @@ export const createColumns = (
   },
   {
     accessorKey: 'createdAtTime',
-    header: 'Hora de Criação',
+    header: ({ column }) => {
+      return <OrdenationButton column={column} columnName="Hora da Criação" />
+    },
     cell: ({ row }) => {
       const value = row.original.createdAt
       const date = new Date(value)
@@ -84,7 +121,7 @@ export const createColumns = (
   },
   {
     accessorKey: 'actions',
-    header: 'Ações',
+    header: '',
     cell: ({ row }) => {
       const order = row.original as IOrder
       return (

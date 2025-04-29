@@ -3,6 +3,8 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  getSortedRowModel,
+  SortingState,
 } from '@tanstack/react-table'
 
 import {
@@ -13,16 +15,24 @@ import {
   TableHeader,
   TableRow,
 } from '../ui/table'
+import { useState } from 'react'
 
 interface IDataGrid {
   content: any
   columns: ColumnDef<any>[]
 }
 const DataGrid = ({ content, columns }: IDataGrid) => {
+  const [sorting, setSorting] = useState<SortingState>([])
+
   const table = useReactTable({
     data: content,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    state: {
+      sorting,
+    },
   })
   return (
     <div className="rounded-md border">

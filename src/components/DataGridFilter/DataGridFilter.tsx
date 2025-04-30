@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from '../ui/select'
 import { useState } from 'react'
-import { useOrderByStatus } from '@/hooks/useOrderBy'
+import { useOrderBy } from '@/hooks/useOrderBy'
 import { Button } from '../ui/button'
 
 interface IDataGridFilter {
@@ -33,7 +33,7 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
     table.getColumn(column)?.setFilterValue(value)
   }
 
-  const { executeFilterByStatus } = useOrderByStatus()
+  const { executeFilterByStatus, executeFilterBySide } = useOrderBy()
 
   const filterByStatus = (value: string) => {
     setFilterValues((prev) => ({
@@ -49,6 +49,22 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
       status: '',
     }))
     executeFilterByStatus('')
+  }
+
+  const filterBySide = (value: string) => {
+    setFilterValues((prev) => ({
+      ...prev,
+      side: value,
+    }))
+    executeFilterBySide(value)
+  }
+
+  const clearSideFilter = () => {
+    setFilterValues((prev) => ({
+      ...prev,
+      side: '',
+    }))
+    executeFilterBySide('')
   }
 
   return (
@@ -78,18 +94,23 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
         />
 
         {/* Side Filter */}
-        <Select
-          onValueChange={(value) => handleFilterChange('side', value)}
-          value={filterValues.side}
-        >
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Selecione Lado" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="1">Compra</SelectItem>
-            <SelectItem value="2">Venda</SelectItem>
-          </SelectContent>
-        </Select>
+        <div className="flex items-center gap-2">
+          <Select
+            onValueChange={(value) => filterBySide(value)}
+            value={filterValues.side}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Selecione Lado" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="1">Compra</SelectItem>
+              <SelectItem value="2">Venda</SelectItem>
+            </SelectContent>
+          </Select>
+          <Button onClick={clearSideFilter} variant={'ghost'}>
+            Limpar
+          </Button>
+        </div>
 
         {/* Status Filter */}
         <div className="flex items-center gap-2">

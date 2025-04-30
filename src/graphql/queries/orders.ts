@@ -45,3 +45,19 @@ export const GET_ORDERS_BY_STATUS = gql`
         }
     }
 `
+
+export const GET_ORDERS_BY_SIDE = gql`
+    query OrdersBySide($side: Int!) {
+        ordersBySide(side: $side) {
+            id
+            instrument
+            side
+            price
+            quantity
+            remainingQuantity
+            status
+            createdAt
+            updatedAt
+        }
+    }
+`

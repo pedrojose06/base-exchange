@@ -21,7 +21,21 @@ export const ORDER_GRID_COLUMNS = {
   CREATE_TIME: 'createTime',
 } as const
 
+export const ORDER_GRID_COLUMNS_NAME = new Map<string, string>([
+  ['id', 'ID'],
+  ['instrument', 'Instrumento'],
+  ['side', 'Compra/Venda'],
+  ['price', 'Preço'],
+  ['quantity', 'Quantidade'],
+  ['remainingQuantity', 'Quantidade Restante'],
+  ['status', 'Status'],
+  ['createDate', 'Data de Criação'],
+  ['createTime', 'Hora de Criação'],
+])
+
 export type OrderGridColumns =
   (typeof ORDER_GRID_COLUMNS)[keyof typeof ORDER_GRID_COLUMNS]
+
+export type OrderGridColumnsName = keyof typeof ORDER_GRID_COLUMNS_NAME
 
 export type OrderStatus = keyof typeof ORDER_STATUS

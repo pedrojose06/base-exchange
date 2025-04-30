@@ -47,7 +47,7 @@ const DataGrid = ({ content, columns }: IDataGrid) => {
 
   return (
     <div>
-      <DataGridFilter setGlobalFilter={setGlobalFilter} />
+      <DataGridFilter setGlobalFilter={setGlobalFilter} table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

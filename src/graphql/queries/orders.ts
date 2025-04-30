@@ -29,3 +29,19 @@ export const GET_ORDER_BY_ID = gql`
         }
     }
 `
+
+export const GET_ORDERS_BY_STATUS = gql`
+    query OrdersByStatus($status: String!) {
+        ordersByStatus(status: $status) {
+            id
+            instrument
+            side
+            price
+            quantity
+            remainingQuantity
+            status
+            createdAt
+            updatedAt
+        }
+    }
+`

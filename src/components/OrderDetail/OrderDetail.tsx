@@ -6,6 +6,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import OrderDetailForm from '../OrderDetailForm/OrderDetailForm'
+import { Link } from 'react-router-dom'
 
 interface IOrderDetail {
   orderId: string
@@ -24,6 +25,12 @@ const OrderDetail = ({ orderId, open, onClose }: IOrderDetail) => {
           </DialogDescription>
         </DialogHeader>
         <OrderDetailForm orderId={orderId} />
+        <Link
+          to={`/order-detail/${orderId}`}
+          className="text-center text-cyan-700 underline"
+        >
+          Ver Histórico
+        </Link>{' '}
       </DialogContent>
     </Dialog>
   )

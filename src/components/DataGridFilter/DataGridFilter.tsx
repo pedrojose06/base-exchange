@@ -99,7 +99,7 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
   return (
     <div className="flex flex-col gap-4 py-4">
       {/* Global Filter */}
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4">
         <Input
           placeholder="Digite para filtrar..."
           onChange={(e) => setGlobalFilter(e.target.value)}

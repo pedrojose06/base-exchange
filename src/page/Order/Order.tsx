@@ -1,8 +1,10 @@
 import Loading from '@/components/Loading/Loading'
 import OrderDetailField from '@/components/OrderDetailField/OrderDetailField'
+import { Button } from '@/components/ui/button'
 import useOrderHistoryById from '@/hooks/useOrderHistoryById'
 import { lazy, Suspense } from 'react'
-import { useParams } from 'react-router-dom'
+import { FaAngleLeft } from 'react-icons/fa'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const OrderDetailForm = lazy(
   () => import('@/components/OrderDetailForm/OrderDetailForm')
@@ -17,11 +19,23 @@ interface IOrderHistoryDetail {
 const Order = () => {
   const { id } = useParams()
   const { data } = useOrderHistoryById(id as string)
+  const navigate = useNavigate() // Initialize the navigate function
 
   if (!id || !data) return null
   return (
-    <div className="px-24 py-12">
-      <h1 className="pb-12 text-center font-bold text-2xl">Order Details</h1>
+    <div className="px-6 py-3 md:px-24 md:py-12">
+      <div className="flex items-center justify-between pb-12 ">
+        <Button
+          className="mb-4"
+          type="button"
+          variant="secondary"
+          onClick={() => navigate('/')} // Navigate to the home route
+        >
+          <FaAngleLeft />
+        </Button>
+
+        <h1 className="flex-1 text-center font-bold text-2xl">Order Details</h1>
+      </div>
       <div className="p-8">
         <Suspense fallback={<Loading />}>
           <OrderDetailForm orderId={id} />

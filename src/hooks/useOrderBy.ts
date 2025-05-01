@@ -1,6 +1,6 @@
 import { useQuery } from '@apollo/client'
 import { GET_ORDERS_BY_FILTERS } from '@/graphql/queries/orders'
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { useSetAtom } from 'jotai'
 import { atomOrderList } from '@/atoms/order'
 import { IOrderFilter } from '@/interfaces/order'
@@ -20,29 +20,26 @@ export const useOrderBy = () => {
         filters.instrument === ''),
   })
 
-  const executeFilters = useCallback(
-    async (newFilters: IOrderFilter) => {
-      setFilters(newFilters)
-      if (
-        Object.keys(filters).length === 0 ||
-        (filters.createdAt === '' &&
-          filters.id === '' &&
-          filters.status === '' &&
-          filters.side === 0 &&
-          filters.instrument === '')
-      )
-        return
+  const executeFilters = async (newFilters: IOrderFilter) => {
+    setFilters(newFilters)
+    if (
+      Object.keys(filters).length === 0 ||
+      (filters.createdAt === '' &&
+        filters.id === '' &&
+        filters.status === '' &&
+        filters.side === 0 &&
+        filters.instrument === '')
+    )
+      return
 
-      try {
-        const { data } = await refetchByFilters({ filters: newFilters })
-        setOrderList(data?.ordersByFilter || [])
-      } catch (err) {
-        console.error('Error fetching data:', err)
-        setOrderList([])
-      }
-    },
-    [refetchByFilters, setOrderList]
-  )
+    try {
+      const { data } = await refetchByFilters({ filters: newFilters })
+      setOrderList(data?.ordersByFilter || [])
+    } catch (err) {
+      console.error('Error fetching data:', err)
+      setOrderList([])
+    }
+  }
 
   return {
     executeFilters,

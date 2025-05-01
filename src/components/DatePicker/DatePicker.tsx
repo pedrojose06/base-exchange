@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { useState } from 'react'
 
 interface IDataPicker {
   date: Date | undefined
@@ -18,8 +19,15 @@ interface IDataPicker {
 }
 
 const DatePicker = ({ date, setDate }: IDataPicker) => {
+  const [isOpen, setIsOpen] = useState(false) // State to control Popover visibility
+
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    setDate(selectedDate)
+    setIsOpen(false) // Close the Popover after selecting a date
+  }
+
   return (
-    <Popover>
+    <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
           variant={'outline'}
@@ -40,11 +48,12 @@ const DatePicker = ({ date, setDate }: IDataPicker) => {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={handleDateSelect} // Use the handler to set the date and close the Popover
           initialFocus
         />
       </PopoverContent>
     </Popover>
   )
 }
+
 export default DatePicker

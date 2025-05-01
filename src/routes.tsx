@@ -1,14 +1,30 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Home from './page/Home/Home'
+import Loading from './components/Loading/Loading'
 
-const OrderDetailPage = () => <h1>Order Detail Page</h1>
+const Home = lazy(() => import('@/page/Home/Home'))
+const Order = lazy(() => import('@/page/Order/Order'))
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/order-detail" element={<OrderDetailPage />} />
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={<Loading />}>
+              <Home />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/order-detail/:id"
+          element={
+            <Suspense fallback={<Loading />}>
+              <Order />
+            </Suspense>
+          }
+        />
       </Routes>
     </Router>
   )

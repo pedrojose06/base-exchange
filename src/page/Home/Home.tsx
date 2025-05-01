@@ -9,7 +9,7 @@ const Home = () => {
   const [isCreateNewOrderOpen, setIsCreateNewOrderOpen] = useState(false)
   return (
     <div className="min-h-dvh p-4">
-      <h1 className="p-6 text-center font-bold text-2xl text-[#ba94f2]">
+      <h1 className="p-4 text-center font-bold text-2xl text-[#ba94f2]">
         Orderns Recentes
       </h1>
       <div className="flex justify-end p-4">

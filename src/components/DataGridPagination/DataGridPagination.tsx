@@ -7,7 +7,7 @@ import {
   PaginationPrevious,
 } from '@/components/ui/pagination'
 
-interface IDataGridPagination {
+interface IDataGridPagination extends React.HTMLAttributes<HTMLDivElement> {
   page: number
   totalPages: number
   onPageChange: (page: number) => void
@@ -19,7 +19,7 @@ const DataGridPagination = ({
   onPageChange,
 }: IDataGridPagination) => {
   return (
-    <Pagination>
+    <Pagination className="p-2">
       <PaginationContent>
         {/* Previous Button */}
         <PaginationItem>

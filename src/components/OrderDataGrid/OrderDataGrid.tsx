@@ -59,6 +59,7 @@ export function OrderDataGrid() {
         totalPages={totalPages}
         page={actualPage}
         onPageChange={setActualPage}
+        className="p-4"
       />
 
       {selectedOrderId && isOrderDetailOpen && (

@@ -134,12 +134,12 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
             value={filterValues.side?.toString() ?? ''}
           >
             <SelectTrigger className="flex-1">
-              <SelectValue placeholder="Compra/Vendar">
+              <SelectValue placeholder="Compra/Venda">
                 {Number(filterValues.side) === 1
                   ? 'Compra'
                   : Number(filterValues.side) === 2
                     ? 'Venda'
-                    : 'Compra/Vendar'}
+                    : 'Compra/Venda'}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>

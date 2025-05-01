@@ -12,7 +12,13 @@ const AppRoutes = () => {
         <Route
           path="/"
           element={
-            <Suspense fallback={<Loading />}>
+            <Suspense
+              fallback={
+                <div className="h-dvh">
+                  <Loading />
+                </div>
+              }
+            >
               <Home />
             </Suspense>
           }
@@ -20,7 +26,13 @@ const AppRoutes = () => {
         <Route
           path="/order-detail/:id"
           element={
-            <Suspense fallback={<Loading />}>
+            <Suspense
+              fallback={
+                <div className="h-dvh">
+                  <Loading />
+                </div>
+              }
+            >
               <Order />
             </Suspense>
           }

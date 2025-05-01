@@ -8,7 +8,7 @@ const OrderCreate = lazy(() => import('@/components/OrderCreate/OrderCreate'))
 const Home = () => {
   const [isCreateNewOrderOpen, setIsCreateNewOrderOpen] = useState(false)
   return (
-    <div className="p-4">
+    <div className="min-h-dvh p-4">
       <h1 className="text-center font-bold text-2xl">Orderns Recentes</h1>
       <div className="flex justify-end p-4">
         <Button

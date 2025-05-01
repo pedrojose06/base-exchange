@@ -1,4 +1,9 @@
-import { ORDER_GRID_COLUMNS, OrderStatus } from '@/constants/order'
+import {
+  getKeyFromValue,
+  ORDER_GRID_COLUMNS,
+  ORDER_STATUS,
+  OrderStatus,
+} from '@/constants/order'
 import { IOrder } from '@/interfaces/order'
 import { getStatusTextColor, statusPtBr } from '@/utils/status'
 import { ColumnDef } from '@tanstack/react-table'
@@ -40,7 +45,7 @@ export const createColumns = (
     cell: ({ row }) => {
       const order = row.original as IOrder
       return (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-start gap-2">
           <button
             type="button"
             onClick={() => openOrderDetails(order.id, 'detail')}
@@ -49,14 +54,17 @@ export const createColumns = (
           >
             <FaEdit />
           </button>
-          <button
-            type="button"
-            onClick={() => openOrderDetails(order.id, 'cancel')}
-            className="rounded p-2 text-red-500 transition hover:bg-red-100 hover:text-red-700"
-            aria-label={`Delete order ${order.id}`}
-          >
-            <FaTrash />
-          </button>
+          {(order.status === getKeyFromValue(ORDER_STATUS.OPEN) ||
+            order.status === getKeyFromValue(ORDER_STATUS.PENDING)) && (
+            <button
+              type="button"
+              onClick={() => openOrderDetails(order.id, 'cancel')}
+              className="rounded p-2 text-red-500 transition hover:bg-red-100 hover:text-red-700"
+              aria-label={`Delete order ${order.id}`}
+            >
+              <FaTrash />
+            </button>
+          )}
         </div>
       )
     },

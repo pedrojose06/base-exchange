@@ -12,7 +12,7 @@ const Home = () => {
       <h1 className="text-center font-bold text-2xl">Orderns Recentes</h1>
       <div className="flex justify-end p-4">
         <Button
-          variant={'outline'}
+          variant={'default'}
           onClick={() => setIsCreateNewOrderOpen(true)}
         >
           <FaPlus className="mr-2" />

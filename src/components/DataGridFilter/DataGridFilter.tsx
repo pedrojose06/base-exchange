@@ -13,6 +13,7 @@ import { Button } from '../ui/button'
 import DatePicker from '../DatePicker/DatePicker'
 import { IOrderFilter } from '@/interfaces/order'
 import { useOrders } from '@/hooks/useOrders'
+import { FaBroom } from 'react-icons/fa'
 
 interface IDataGridFilter {
   setGlobalFilter: (value: string) => void
@@ -106,7 +107,7 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
           className="max-w-sm"
         />
 
-        <Button onClick={() => clearAllFilters()} variant={'default'}>
+        <Button onClick={() => clearAllFilters()} variant={'secondary'}>
           Limpar todos filtros
         </Button>
       </div>
@@ -131,7 +132,7 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
         />
 
         {/* Side Filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <Select
             onValueChange={(value) => handleFilterChange('side', value)}
             value={filterValues.side?.toString() ?? ''}
@@ -150,13 +151,13 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
               <SelectItem value="2">Venda</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={() => clearFilter('side')} variant={'ghost'}>
-            Limpar
+          <Button onClick={() => clearFilter('side')} variant={'secondary'}>
+            <FaBroom />
           </Button>
         </div>
 
         {/* Status Filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <Select
             onValueChange={(value) => handleFilterChange('status', value)}
             value={filterValues.status}
@@ -171,22 +172,22 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
               <SelectItem value="canceled">Cancelada</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={() => clearFilter('status')} variant={'ghost'}>
-            Limpar
+          <Button onClick={() => clearFilter('status')} variant={'secondary'}>
+            <FaBroom />
           </Button>
         </div>
 
         {/* Date Filter */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <DatePicker date={date} setDate={setDate} />
           <Button
             onClick={() => {
               setDate(undefined)
               clearFilter('createdAt')
             }}
-            variant={'ghost'}
+            variant={'secondary'}
           >
-            Limpar
+            <FaBroom />
           </Button>
         </div>
       </div>

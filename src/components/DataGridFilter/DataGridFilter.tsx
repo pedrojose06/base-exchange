@@ -64,6 +64,22 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
     table.getColumn(column)?.setFilterValue('')
   }
 
+  const clearAllFilters = () => {
+    const cleanFilters = {
+      id: '',
+      instrument: '',
+      side: 0,
+      status: '',
+      createdAt: '',
+    }
+    setFilterValues(() => {
+      const updatedFilters = { ...cleanFilters }
+      setDebouncedFilters(updatedFilters)
+      return updatedFilters
+    })
+    table.resetColumnFilters()
+  }
+
   const [date, setDate] = useState<Date>()
 
   useEffect(() => {
@@ -80,11 +96,19 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
   return (
     <div className="flex flex-col gap-4 py-4">
       {/* Global Filter */}
-      <Input
-        placeholder="Digite para filtrar..."
-        onChange={(e) => setGlobalFilter(e.target.value)}
-        className="max-w-sm"
-      />
+      <div className="flex justify-between">
+        <Input
+          placeholder="Digite para filtrar..."
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          className="max-w-sm"
+        />
+
+        <Button onClick={() => clearAllFilters()} variant={'default'}>
+          Limpar todos filtros
+        </Button>
+      </div>
+
+      <hr />
 
       <div className="grid grid-cols-1 justify-between gap-4 md:grid-cols-2 lg:grid-cols-3">
         {/* ID Filter */}

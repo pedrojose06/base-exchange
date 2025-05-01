@@ -7,6 +7,7 @@ import DataGrid from '../DataGrid/DataGrid'
 import DataGridPagination from '../DataGridPagination/DataGridPagination'
 import { atomOrderGridPage } from '@/atoms/order'
 import { useAtom } from 'jotai'
+import Loading from '../Loading/Loading'
 
 const OrderCancel = lazy(() => import('../OrderCancel/OrderCancel'))
 const OrderDetail = lazy(() => import('../OrderDetail/OrderDetail'))
@@ -16,7 +17,7 @@ export function OrderDataGrid() {
   const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false)
   const [isOrderCancelOpen, setIsOrderCancelOpen] = useState(false)
   const [actualPage, setActualPage] = useAtom(atomOrderGridPage)
-  const { orders, totalPages, refetch } = useOrders({
+  const { orders, totalPages, loading, refetch } = useOrders({
     limit: 5,
     page: actualPage,
   })
@@ -45,6 +46,10 @@ export function OrderDataGrid() {
   }, [actualPage, refetch])
 
   const columns = createColumns(openOrderDetails)
+
+  if (loading) {
+    return <Loading />
+  }
 
   return (
     <div className="rounded-md border p-4">

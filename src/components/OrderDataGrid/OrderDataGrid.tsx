@@ -29,7 +29,7 @@ export function OrderDataGrid() {
   const columns = createColumns(openOrderDetails)
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-md border p-4">
       <DataGrid content={orders} columns={columns} />
 
       {selectedOrderId && isOrderDetailOpen && (

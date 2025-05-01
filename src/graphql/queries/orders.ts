@@ -61,3 +61,35 @@ export const GET_ORDERS_BY_SIDE = gql`
         }
     }
 `
+
+export const GET_ORDERS_BY_DATE = gql`
+    query OrderByDate($date: String!) {
+        ordersByDate(date: $date) {
+            id
+            instrument
+            side
+            price
+            quantity
+            remainingQuantity
+            status
+            createdAt
+            updatedAt
+        }
+    }
+`
+
+export const GET_ORDERS_BY_FILTERS = gql`
+  query OrdersByFilter($filters: FiltersInput) {
+    ordersByFilter(filters: $filters) {
+      id
+      instrument
+      side
+      price
+      quantity
+      remainingQuantity
+      status
+      createdAt
+      updatedAt
+    }
+  }
+`

@@ -7,9 +7,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../ui/select'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useOrderBy } from '@/hooks/useOrderBy'
 import { Button } from '../ui/button'
+import DatePicker from '../DatePicker/DatePicker'
+import { IOrderFilter } from '@/interfaces/order'
 
 interface IDataGridFilter {
   setGlobalFilter: (value: string) => void
@@ -17,61 +19,69 @@ interface IDataGridFilter {
 }
 
 const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
-  const [filterValues, setFilterValues] = useState<Record<string, string>>({
+  const [filterValues, setFilterValues] = useState<IOrderFilter>({
     id: '',
     instrument: '',
-    side: '',
+    side: 0,
     status: '',
-    createDate: '',
+    createdAt: '',
   })
 
+  const { executeFilters } = useOrderBy()
+
+  const [debouncedFilters, setDebouncedFilters] = useState(filterValues)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      executeFilters(debouncedFilters)
+    }, 300)
+
+    return () => {
+      clearTimeout(handler)
+    }
+  }, [debouncedFilters, executeFilters])
+
   const handleFilterChange = (column: string, value: string) => {
-    setFilterValues((prev) => ({
-      ...prev,
-      [column]: value,
-    }))
+    setFilterValues((prev) => {
+      let newValue: string | number
+      newValue = value
+      if (column === 'side') {
+        newValue = Number(value)
+      }
+      const updatedFilters = { ...prev, [column]: newValue }
+      setDebouncedFilters(updatedFilters)
+      return updatedFilters
+    })
     table.getColumn(column)?.setFilterValue(value)
   }
 
-  const { executeFilterByStatus, executeFilterBySide } = useOrderBy()
-
-  const filterByStatus = (value: string) => {
-    setFilterValues((prev) => ({
-      ...prev,
-      status: value,
-    }))
-    executeFilterByStatus(value)
+  const clearFilter = (column: string) => {
+    setFilterValues((prev) => {
+      const updatedFilters = { ...prev, [column]: column === 'side' ? 0 : '' }
+      setDebouncedFilters(updatedFilters)
+      return updatedFilters
+    })
+    table.getColumn(column)?.setFilterValue('')
   }
 
-  const clearStatusFilter = () => {
-    setFilterValues((prev) => ({
-      ...prev,
-      status: '',
-    }))
-    executeFilterByStatus('')
-  }
+  const [date, setDate] = useState<Date>()
 
-  const filterBySide = (value: string) => {
-    setFilterValues((prev) => ({
-      ...prev,
-      side: value,
-    }))
-    executeFilterBySide(value)
-  }
-
-  const clearSideFilter = () => {
-    setFilterValues((prev) => ({
-      ...prev,
-      side: '',
-    }))
-    executeFilterBySide('')
-  }
+  useEffect(() => {
+    if (date) {
+      const formattedDate = date.toISOString().split('T')[0]
+      setFilterValues((prev) => {
+        const updatedFilters = { ...prev, createdAt: formattedDate }
+        setDebouncedFilters(updatedFilters)
+        return updatedFilters
+      })
+    }
+  }, [date])
 
   return (
     <div className="flex flex-col gap-4 py-4">
       {/* Global Filter */}
       <Input
-        placeholder="Digite para filtrar globalmente..."
+        placeholder="Digite para filtrar..."
         onChange={(e) => setGlobalFilter(e.target.value)}
         className="max-w-sm"
       />
@@ -96,18 +106,24 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
         {/* Side Filter */}
         <div className="flex items-center gap-2">
           <Select
-            onValueChange={(value) => filterBySide(value)}
-            value={filterValues.side}
+            onValueChange={(value) => handleFilterChange('side', value)}
+            value={filterValues.side?.toString() ?? ''}
           >
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Selecione Lado" />
+            <SelectTrigger className="flex-1">
+              <SelectValue placeholder="Compra/Vendar">
+                {Number(filterValues.side) === 1
+                  ? 'Compra'
+                  : Number(filterValues.side) === 2
+                    ? 'Venda'
+                    : 'Compra/Vendar'}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="1">Compra</SelectItem>
               <SelectItem value="2">Venda</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={clearSideFilter} variant={'ghost'}>
+          <Button onClick={() => clearFilter('side')} variant={'ghost'}>
             Limpar
           </Button>
         </div>
@@ -115,10 +131,10 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
         {/* Status Filter */}
         <div className="flex items-center gap-2">
           <Select
-            onValueChange={(value) => filterByStatus(value)}
+            onValueChange={(value) => handleFilterChange('status', value)}
             value={filterValues.status}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="flex-1">
               <SelectValue placeholder="Selecione Status" />
             </SelectTrigger>
             <SelectContent>
@@ -128,18 +144,24 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
               <SelectItem value="canceled">Cancelada</SelectItem>
             </SelectContent>
           </Select>
-          <Button onClick={clearStatusFilter} variant={'ghost'}>
+          <Button onClick={() => clearFilter('status')} variant={'ghost'}>
             Limpar
           </Button>
         </div>
 
         {/* Date Filter */}
-        <Input
-          type="date"
-          value={filterValues.createDate}
-          onChange={(e) => handleFilterChange('createDate', e.target.value)}
-          className="max-w-sm"
-        />
+        <div className="flex items-center gap-2">
+          <DatePicker date={date} setDate={setDate} />
+          <Button
+            onClick={() => {
+              setDate(undefined)
+              clearFilter('createdAt')
+            }}
+            variant={'ghost'}
+          >
+            Limpar
+          </Button>
+        </div>
       </div>
     </div>
   )

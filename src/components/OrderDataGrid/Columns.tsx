@@ -114,9 +114,19 @@ export const createColumns = (
     cell: ({ row }) => {
       const value = row.original.createdAt
       const date = new Date(value)
-      return Number.isNaN(date.getTime())
-        ? 'Hora Inválida'
-        : date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+
+      if (Number.isNaN(date.getTime())) {
+        return 'Hora Inválida'
+      }
+
+      // Format the time with the time zone
+      const formattedTime = date.toLocaleTimeString('pt-BR', {
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short', // Include the time zone abbreviation
+      })
+
+      return formattedTime
     },
   },
   {

@@ -16,3 +16,11 @@ export interface IOrder {
   createdAtTime: string
   updatedAtTime: string
 }
+
+export interface IOrderFilter {
+  id?: string
+  instrument?: string
+  side?: number
+  status?: string
+  createdAt?: string
+}

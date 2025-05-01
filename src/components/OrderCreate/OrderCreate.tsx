@@ -1,15 +1,26 @@
 import { useState } from 'react'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import DialogModal from '../DialogModal/DialogModal'
 import { Button } from '../ui/button'
-import useOrderCreate from '@/hooks/useOrderCreate'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../ui/select'
-import { Input } from '../ui/input'
+} from '@/components/ui/select'
+import useOrderCreate from '@/hooks/useOrderCreate'
 
 interface IOrderCreate {
   open: boolean
@@ -29,28 +40,46 @@ const instruments = [
   { id: 10, name: 'BRFS3', price: 8.9 },
 ]
 
+// Define the schema using zod
+const orderSchema = z.object({
+  instrument: z.string().nonempty('Selecione um instrumento financeiro.'),
+  side: z
+    .enum(['1', '2'], {
+      errorMap: () => ({ message: 'Selecione o tipo de ordem.' }),
+    })
+    .refine((value) => value !== undefined, {
+      message: 'Selecione o tipo de ordem.',
+    }),
+  quantity: z
+    .number()
+    .min(1, 'A quantidade deve ser maior que 0.')
+    .refine(
+      (value) => Number.isInteger(value),
+      'A quantidade deve ser um número inteiro.'
+    ),
+  price: z.number().min(0.01, 'O preço deve ser maior que 0.'),
+})
+
+type OrderFormValues = z.infer<typeof orderSchema>
+
 const OrderCreate = ({ open, onClose }: IOrderCreate) => {
-  const [instrument, setInstrument] = useState<string>('')
-  const [side, setSide] = useState<string>('buy')
-  const [quantity, setQuantity] = useState<number>(0)
-  const [price, setPrice] = useState<number>(0)
   const { createOrder } = useOrderCreate()
+  const [instrumentPrice, setInstrumentPrice] = useState<number>(0)
 
-  const handleSubmit = async () => {
-    if (!instrument || !quantity || !price) {
-      alert('Por favor, preencha todos os campos obrigatórios.')
-      return
-    }
+  const form = useForm<OrderFormValues>({
+    resolver: zodResolver(orderSchema),
+    defaultValues: {
+      instrument: '',
+      side: undefined,
+      quantity: 0,
+      price: 0,
+    },
+  })
 
-    const order = {
-      instrument,
-      side: Number(side),
-      price,
-      quantity,
-    }
-
+  const onSubmit = async (data: OrderFormValues) => {
+    data
     try {
-      await createOrder(order)
+      await createOrder({ ...data, side: Number(data.side) })
       onClose()
     } catch (error) {
       console.error('Error creating order:', error)
@@ -58,24 +87,21 @@ const OrderCreate = ({ open, onClose }: IOrderCreate) => {
     }
   }
 
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    if (value === '') {
-      setQuantity(0)
-      setPrice(0)
-      return
-    }
-    const parsedValue = Number.parseInt(value, 10)
+  const handleInstrumentChange = (value: string) => {
+    const selectedInstrument = instruments.find((inst) => inst.name === value)
+    setInstrumentPrice(selectedInstrument?.price ?? 0)
+    form.setValue('instrument', value)
+    form.setValue(
+      'price',
+      (selectedInstrument?.price ?? 0) * form.getValues('quantity')
+    )
+  }
 
-    if (!Number.isNaN(parsedValue)) {
-      const instrumentPrice =
-        instruments.find((inst) => inst.name === instrument)?.price ?? 0
-      const calculatedPrice = (instrumentPrice * parsedValue).toFixed(2) // Ensure 2 decimal places
-
-      setPrice(Number(calculatedPrice))
-      setQuantity(parsedValue)
-    } else {
-      setQuantity(0)
+  const handleQuantityChange = (value: string) => {
+    const quantity = Number(value)
+    if (!Number.isNaN(quantity)) {
+      form.setValue('quantity', quantity)
+      form.setValue('price', instrumentPrice * quantity)
     }
   }
 
@@ -86,70 +112,106 @@ const OrderCreate = ({ open, onClose }: IOrderCreate) => {
       open={open}
       onClose={onClose}
     >
-      <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-col">
-          <label htmlFor="instrumentSelect">Instrumento financeiro</label>
-          <Select
-            onValueChange={(value) => setInstrument(value)}
-            value={instrument}
-          >
-            <SelectTrigger className="w-full rounded border p-2">
-              <SelectValue placeholder="Selecione um instrumento" />
-            </SelectTrigger>
-            <SelectContent>
-              {instruments.map((instrument) => (
-                <SelectItem key={instrument.id} value={instrument.name}>
-                  {instrument.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="orderTypeSelect">Tipo de Ordem</label>
-          <Select onValueChange={(value) => setSide(value)} value={side}>
-            <SelectTrigger className="w-full rounded border p-2">
-              <SelectValue placeholder="Selecione o tipo de ordem" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">Compra</SelectItem>
-              <SelectItem value="2">Venda</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="quantityInput">Quantidade</label>
-          <Input
-            type="number"
-            id="quantityInput"
-            name="quantityInput"
-            className="rounded border p-2"
-            placeholder="Quantidade"
-            value={quantity || ''}
-            onChange={(e) => handleQuantityChange(e)}
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          {/* Instrument Select */}
+          <FormField
+            control={form.control}
+            name="instrument"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Instrumento financeiro</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={(value) => handleInstrumentChange(value)}
+                    value={field.value}
+                  >
+                    <SelectTrigger className="w-full rounded border p-2">
+                      <SelectValue placeholder="Selecione um instrumento" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {instruments.map((instrument) => (
+                        <SelectItem key={instrument.id} value={instrument.name}>
+                          {instrument.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="priceInput">Preço</label>
-          <Input
-            type="text"
-            id="priceInput"
-            disabled
-            readOnly
-            name="priceInput"
-            className="rounded border p-2"
-            placeholder="Preço"
-            value={`R$ ${price}`.replace('.', ',') || ''}
+
+          {/* Order Type Select */}
+          <FormField
+            control={form.control}
+            name="side"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Tipo de Ordem</FormLabel>
+                <FormControl>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <SelectTrigger className="w-full rounded border p-2">
+                      <SelectValue placeholder="Selecione o tipo de ordem" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="1">Compra</SelectItem>
+                      <SelectItem value="2">Venda</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
-        <Button
-          type="button"
-          onClick={handleSubmit}
-          className="col-span-2 mt-4"
-        >
-          Criar Ordem
-        </Button>
-      </div>
+
+          {/* Quantity Input */}
+          <FormField
+            control={form.control}
+            name="quantity"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Quantidade</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Quantidade"
+                    value={field.value || ''}
+                    onChange={(e) => handleQuantityChange(e.target.value)}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Price Input */}
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Preço</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Preço"
+                    value={`R$ ${field.value.toFixed(2)}`.replace('.', ',')}
+                    disabled
+                    readOnly
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="w-full">
+            Criar Ordem
+          </Button>
+        </form>
+      </Form>
     </DialogModal>
   )
 }

@@ -2,18 +2,24 @@
 
 import { useOrders } from '@/hooks/useOrders'
 import { createColumns } from './Columns'
-import { lazy, useState } from 'react'
+import { lazy, useEffect, useState } from 'react'
 import DataGrid from '../DataGrid/DataGrid'
+import DataGridPagination from '../DataGridPagination/DataGridPagination'
+import { atomOrderGridPage } from '@/atoms/order'
+import { useAtom } from 'jotai'
 
 const OrderCancel = lazy(() => import('../OrderCancel/OrderCancel'))
 const OrderDetail = lazy(() => import('../OrderDetail/OrderDetail'))
 
 export function OrderDataGrid() {
-  const { orders } = useOrders()
-
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null)
   const [isOrderDetailOpen, setIsOrderDetailOpen] = useState(false)
   const [isOrderCancelOpen, setIsOrderCancelOpen] = useState(false)
+  const [actualPage, setActualPage] = useAtom(atomOrderGridPage)
+  const { orders, totalPages, refetch } = useOrders({
+    limit: 5,
+    page: actualPage,
+  })
 
   const openOrderDetails = (orderId: string, action: string) => {
     setSelectedOrderId(orderId)
@@ -26,11 +32,29 @@ export function OrderDataGrid() {
     setIsOrderDetailOpen(false)
   }
 
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        await refetch({ limit: 5, page: actualPage })
+      } catch (error) {
+        console.error('Error fetching orders:', error)
+      }
+    }
+
+    fetchOrders()
+  }, [actualPage, refetch])
+
   const columns = createColumns(openOrderDetails)
 
   return (
     <div className="rounded-md border p-4">
       <DataGrid content={orders} columns={columns} />
+
+      <DataGridPagination
+        totalPages={totalPages}
+        page={actualPage}
+        onPageChange={setActualPage}
+      />
 
       {selectedOrderId && isOrderDetailOpen && (
         <OrderDetail

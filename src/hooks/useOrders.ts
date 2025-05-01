@@ -4,13 +4,22 @@ import { useAtom } from 'jotai'
 import { atomOrderList } from '@/atoms/order'
 import { useEffect } from 'react'
 
-export function useOrders() {
-  const { data, loading, error } = useQuery(GET_ORDERS)
-  const [orderList, setOrderList] = useAtom(atomOrderList)
+interface IPagination {
+  limit?: number
+  page?: number
+}
 
+export function useOrders({ limit, page }: IPagination) {
+  const { data, loading, error, refetch } = useQuery(GET_ORDERS, {
+    variables: {
+      limit: limit ?? 5,
+      page: page ?? 1,
+    },
+  })
+  const [orderList, setOrderList] = useAtom(atomOrderList)
   useEffect(() => {
     if (data?.orders) {
-      setOrderList(data.orders)
+      setOrderList(data.orders.orders)
     }
   }, [data, setOrderList])
 
@@ -18,5 +27,7 @@ export function useOrders() {
     orders: orderList,
     loading,
     error,
+    refetch,
+    totalPages: data?.orders.totalPages,
   }
 }

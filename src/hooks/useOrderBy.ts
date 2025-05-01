@@ -11,12 +11,27 @@ export const useOrderBy = () => {
 
   const { refetch: refetchByFilters } = useQuery(GET_ORDERS_BY_FILTERS, {
     variables: { filters },
-    skip: Object.keys(filters).length === 0, // Skip if no filters are active
+    skip:
+      Object.keys(filters).length === 0 ||
+      (filters.createdAt === '' &&
+        filters.id === '' &&
+        filters.status === '' &&
+        filters.side === 0 &&
+        filters.instrument === ''),
   })
 
   const executeFilters = useCallback(
     async (newFilters: IOrderFilter) => {
       setFilters(newFilters)
+      if (
+        Object.keys(filters).length === 0 ||
+        (filters.createdAt === '' &&
+          filters.id === '' &&
+          filters.status === '' &&
+          filters.side === 0 &&
+          filters.instrument === '')
+      )
+        return
 
       try {
         const { data } = await refetchByFilters({ filters: newFilters })

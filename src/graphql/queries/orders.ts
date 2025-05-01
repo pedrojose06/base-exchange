@@ -1,18 +1,22 @@
 import { gql } from '@apollo/client'
 
 export const GET_ORDERS = gql`
-    query GetOrders {
-        orders {
-            id
-            instrument
-            side
-            price
-            quantity
-            remainingQuantity
-            status
-            createdAt
-            updatedAt
+    query GetOrders($limit: Int!, $page: Int!) {
+      orders(limit: $limit, page: $page) {
+        orders{
+
+        id
+        instrument
+        side
+        price
+        quantity
+        remainingQuantity
+        status
+        createdAt
+        updatedAt
         }
+        totalPages
+      }
     }
 `
 export const GET_ORDER_BY_ID = gql`
@@ -26,54 +30,6 @@ export const GET_ORDER_BY_ID = gql`
             status
             updatedAt
             createdAt
-        }
-    }
-`
-
-export const GET_ORDERS_BY_STATUS = gql`
-    query OrdersByStatus($status: String!) {
-        ordersByStatus(status: $status) {
-            id
-            instrument
-            side
-            price
-            quantity
-            remainingQuantity
-            status
-            createdAt
-            updatedAt
-        }
-    }
-`
-
-export const GET_ORDERS_BY_SIDE = gql`
-    query OrdersBySide($side: Int!) {
-        ordersBySide(side: $side) {
-            id
-            instrument
-            side
-            price
-            quantity
-            remainingQuantity
-            status
-            createdAt
-            updatedAt
-        }
-    }
-`
-
-export const GET_ORDERS_BY_DATE = gql`
-    query OrderByDate($date: String!) {
-        ordersByDate(date: $date) {
-            id
-            instrument
-            side
-            price
-            quantity
-            remainingQuantity
-            status
-            createdAt
-            updatedAt
         }
     }
 `

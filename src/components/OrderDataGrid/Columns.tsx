@@ -35,6 +35,33 @@ export const createColumns = (
   openOrderDetails: (id: string, action: string) => void
 ): ColumnDef<IOrder>[] => [
   {
+    accessorKey: 'actions',
+    header: '',
+    cell: ({ row }) => {
+      const order = row.original as IOrder
+      return (
+        <div className="flex items-center justify-center gap-2">
+          <button
+            type="button"
+            onClick={() => openOrderDetails(order.id, 'detail')}
+            className="rounded p-2 text-blue-500 transition hover:bg-blue-100 hover:text-blue-700"
+            aria-label={`Edit order ${order.id}`}
+          >
+            <FaEdit />
+          </button>
+          <button
+            type="button"
+            onClick={() => openOrderDetails(order.id, 'cancel')}
+            className="rounded p-2 text-red-500 transition hover:bg-red-100 hover:text-red-700"
+            aria-label={`Delete order ${order.id}`}
+          >
+            <FaTrash />
+          </button>
+        </div>
+      )
+    },
+  },
+  {
     accessorKey: ORDER_GRID_COLUMNS.ID,
     header: ({ column }) => {
       return <OrdenationButton column={column} columnName="ID" />
@@ -127,33 +154,6 @@ export const createColumns = (
       })
 
       return formattedTime
-    },
-  },
-  {
-    accessorKey: 'actions',
-    header: '',
-    cell: ({ row }) => {
-      const order = row.original as IOrder
-      return (
-        <div className="flex items-center justify-center gap-2">
-          <button
-            type="button"
-            onClick={() => openOrderDetails(order.id, 'detail')}
-            className="rounded p-2 text-blue-500 transition hover:bg-blue-100 hover:text-blue-700"
-            aria-label={`Edit order ${order.id}`}
-          >
-            <FaEdit />
-          </button>
-          <button
-            type="button"
-            onClick={() => openOrderDetails(order.id, 'cancel')}
-            className="rounded p-2 text-red-500 transition hover:bg-red-100 hover:text-red-700"
-            aria-label={`Delete order ${order.id}`}
-          >
-            <FaTrash />
-          </button>
-        </div>
-      )
     },
   },
 ]

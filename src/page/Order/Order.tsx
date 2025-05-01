@@ -23,20 +23,17 @@ const Order = () => {
 
   if (!id || !data) return null
   return (
-    <div className="px-6 py-3 md:px-24 md:py-12">
-      <div className="flex items-center justify-between pb-12 ">
-        <Button
-          className="mb-4"
-          type="button"
-          variant="secondary"
-          onClick={() => navigate('/')} // Navigate to the home route
-        >
+    <div className="p-0 md:px-24 md:py-12">
+      <div className="flex items-center justify-between p-6 ">
+        <Button type="button" variant="secondary" onClick={() => navigate('/')}>
           <FaAngleLeft />
         </Button>
 
-        <h1 className="flex-1 text-center font-bold text-2xl">Order Details</h1>
+        <h1 className="flex-1 text-center font-bold text-2xl text-[#ba94f2]">
+          Order Details
+        </h1>
       </div>
-      <div className="p-8">
+      <div className="p-6">
         <Suspense fallback={<Loading />}>
           <OrderDetailForm orderId={id} />
         </Suspense>

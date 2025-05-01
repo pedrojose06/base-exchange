@@ -17,7 +17,7 @@ export const ORDER_GRID_COLUMNS = {
   QUANTITY: 'quantity',
   REMAINING_QUANTITY: 'remainingQuantity',
   STATUS: 'status',
-  CREATE_DATE: 'createDate',
+  CREATE_DATE: 'createdAt',
   CREATE_TIME: 'createTime',
 } as const
 
@@ -29,7 +29,7 @@ export const ORDER_GRID_COLUMNS_NAME = new Map<string, string>([
   ['quantity', 'Quantidade'],
   ['remainingQuantity', 'Quantidade Restante'],
   ['status', 'Status'],
-  ['createDate', 'Data de Criação'],
+  ['createdAt', 'Data de Criação'],
   ['createTime', 'Hora de Criação'],
 ])
 

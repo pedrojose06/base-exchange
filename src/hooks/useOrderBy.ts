@@ -35,7 +35,7 @@ export const useOrderBy = () => {
 
     try {
       const { data } = await refetchByFilters({ filters: newFilters })
-      setOrderList(data?.ordersByFilter || [])
+      setOrderList(data?.ordersByFilter.orders || [])
       setActualPage(1)
     } catch (err) {
       console.error('Error fetching data:', err)

@@ -35,17 +35,20 @@ export const GET_ORDER_BY_ID = gql`
 `
 
 export const GET_ORDERS_BY_FILTERS = gql`
-  query OrdersByFilter($filters: FiltersInput) {
-    ordersByFilter(filters: $filters) {
-      id
-      instrument
-      side
-      price
-      quantity
-      remainingQuantity
-      status
-      createdAt
-      updatedAt
+  query OrdersByFilter($filters: FiltersInput, $limit: Int, $page: Int) {
+    ordersByFilter(filters: $filters, limit: $limit, page: $page) {
+      totalPages
+      orders {
+        id
+        instrument
+        side
+        price
+        quantity
+        remainingQuantity
+        status
+        createdAt
+        updatedAt
+        }
     }
   }
 `

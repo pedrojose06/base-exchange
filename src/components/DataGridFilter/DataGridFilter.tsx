@@ -12,6 +12,7 @@ import { useOrderBy } from '@/hooks/useOrderBy'
 import { Button } from '../ui/button'
 import DatePicker from '../DatePicker/DatePicker'
 import { IOrderFilter } from '@/interfaces/order'
+import { useOrders } from '@/hooks/useOrders'
 
 interface IDataGridFilter {
   setGlobalFilter: (value: string) => void
@@ -28,6 +29,7 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
   })
 
   const { executeFilters } = useOrderBy()
+  const { refetch } = useOrders({ limit: 5, page: 1 })
 
   const [debouncedFilters, setDebouncedFilters] = useState(filterValues)
 
@@ -39,7 +41,7 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
     return () => {
       clearTimeout(handler)
     }
-  }, [debouncedFilters, executeFilters])
+  }, [debouncedFilters])
 
   const handleFilterChange = (column: string, value: string) => {
     setFilterValues((prev) => {
@@ -77,6 +79,7 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
       setDebouncedFilters(updatedFilters)
       return updatedFilters
     })
+    refetch()
     table.resetColumnFilters()
   }
 

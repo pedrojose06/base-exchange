@@ -125,7 +125,10 @@ const OrderCreate = ({ open, onClose }: IOrderCreate) => {
                     onValueChange={(value) => handleInstrumentChange(value)}
                     value={field.value}
                   >
-                    <SelectTrigger className="w-full rounded border p-2">
+                    <SelectTrigger
+                      data-cy="select-instrument"
+                      className="w-full rounded border p-2"
+                    >
                       <SelectValue placeholder="Selecione um instrumento" />
                     </SelectTrigger>
                     <SelectContent>

@@ -5,8 +5,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog'
-import OrderDetailForm from '../OrderDetailForm/OrderDetailForm'
 import { Link } from 'react-router-dom'
+import OrderDetailForm from '../OrderDetailForm/OrderDetailForm'
 
 interface IOrderDetail {
   orderId: string

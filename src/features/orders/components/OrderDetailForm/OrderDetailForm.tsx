@@ -1,10 +1,10 @@
 import { getStatusColor } from '@/utils/status'
-import { useOrderById } from '@/hooks/useOrderById'
+import { useOrderById } from '@/features/orders/hooks/useOrderById'
 import { lazy, Suspense } from 'react'
-import Loading from '../Loading/Loading'
+import Loading from '../../../../components/Loading/Loading'
 
 const OrderDetailField = lazy(
-  () => import('@/components/OrderDetailField/OrderDetailField')
+  () => import('@/features/orders/components/OrderDetailField/OrderDetailField')
 )
 
 interface IOrderDetailForm {

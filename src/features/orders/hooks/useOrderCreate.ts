@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client'
 import { SEND_ORDER_CREATE } from '@/graphql/mutations/orders'
-import { atomOrderList } from '@/atoms/order'
+import { atomOrderList } from '@/features/orders/atoms/order'
 import { useAtom } from 'jotai'
 import { useOrders } from './useOrders'
 

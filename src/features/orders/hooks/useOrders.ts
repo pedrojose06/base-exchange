@@ -1,7 +1,7 @@
 import { useQuery } from '@apollo/client'
 import { GET_ORDERS } from '@/graphql/queries/orders'
 import { useAtom } from 'jotai'
-import { atomOrderList } from '@/atoms/order'
+import { atomOrderList } from '@/features/orders/atoms/order'
 import { useEffect } from 'react'
 
 interface IPagination {

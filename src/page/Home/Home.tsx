@@ -1,9 +1,11 @@
-import { OrderDataGrid } from '@/components/OrderDataGrid/OrderDataGrid'
+import { OrderDataGrid } from '@/features/orders/components/OrderDataGrid/OrderDataGrid'
 import { Button } from '@/components/ui/button'
 import { lazy, useState } from 'react'
 import { FaPlus } from 'react-icons/fa'
 
-const OrderCreate = lazy(() => import('@/components/OrderCreate/OrderCreate'))
+const OrderCreate = lazy(
+  () => import('@/features/orders/components/OrderCreate/OrderCreate')
+)
 
 const Home = () => {
   const [isCreateNewOrderOpen, setIsCreateNewOrderOpen] = useState(false)

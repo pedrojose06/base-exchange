@@ -3,17 +3,16 @@ import {
   ORDER_GRID_COLUMNS,
   ORDER_STATUS,
   OrderStatus,
-} from '@/constants/order'
-import { IOrder } from '@/interfaces/order'
+} from '@/features/orders/constants/order'
+import { IOrder } from '@/features/orders/interfaces/order'
 import { getStatusTextColor, statusPtBr } from '@/utils/status'
 import { ColumnDef } from '@tanstack/react-table'
 import { FaEdit, FaTrash } from 'react-icons/fa'
 import { ArrowUpDown } from 'lucide-react'
-import { Button } from '../ui/button'
+import { Button } from '../../../../components/ui/button'
+import { FC } from 'react'
 
-const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
-  status,
-}) => {
+const OrderStatusComponent: FC<{ status: OrderStatus }> = ({ status }) => {
   return (
     <span className={`${getStatusTextColor(status)} font-bold`}>
       {statusPtBr(status)}
@@ -21,7 +20,7 @@ const OrderStatusComponent: React.FC<{ status: OrderStatus }> = ({
   )
 }
 
-const OrdenationButton: React.FC<{
+const OrdenationButton: FC<{
   column: any
   columnName: string
 }> = ({ column, columnName }) => {
@@ -96,7 +95,7 @@ export const createColumns = (
     cell: ({ getValue }) => {
       const value = getValue() as number | undefined
       if (value === undefined || value === null) {
-        return 'N/A' // Fallback for undefined or null values
+        return 'N/A'
       }
       return value.toLocaleString('pt-BR', {
         style: 'currency',
@@ -154,11 +153,10 @@ export const createColumns = (
         return 'Hora Inválida'
       }
 
-      // Format the time with the time zone
       const formattedTime = date.toLocaleTimeString('pt-BR', {
         hour: '2-digit',
         minute: '2-digit',
-        timeZoneName: 'short', // Include the time zone abbreviation
+        timeZoneName: 'short',
       })
 
       return formattedTime

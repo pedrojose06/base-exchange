@@ -1,8 +1,11 @@
-import {} from '../ui/dialog'
-import useOrderCancel from '@/hooks/useOrderChangeStatus'
-import { getKeyFromValue, ORDER_STATUS, OrderStatus } from '@/constants/order'
-import DialogModal from '../DialogModal/DialogModal'
-import { Button } from '../ui/button'
+import useOrderCancel from '@/features/orders/hooks/useOrderChangeStatus'
+import {
+  getKeyFromValue,
+  ORDER_STATUS,
+  OrderStatus,
+} from '@/features/orders/constants/order'
+import { Button } from '../../../../components/ui/button'
+import DialogModal from '../../../../components/DialogModal/DialogModal'
 
 interface IOrderCancel {
   orderId: string

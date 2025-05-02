@@ -8,7 +8,6 @@ import {
   ColumnFiltersState,
   getFilteredRowModel,
 } from '@tanstack/react-table'
-
 import {
   Table,
   TableBody,
@@ -27,7 +26,7 @@ interface IDataGrid {
 const DataGrid = ({ content, columns }: IDataGrid) => {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [globalFilter, setGlobalFilter] = useState<string>('') // Add global filter state
+  const [globalFilter, setGlobalFilter] = useState<string>('')
 
   const table = useReactTable({
     data: content,

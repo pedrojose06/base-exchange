@@ -19,11 +19,11 @@ interface IDataPicker {
 }
 
 const DatePicker = ({ date, setDate }: IDataPicker) => {
-  const [isOpen, setIsOpen] = useState(false) // State to control Popover visibility
+  const [isOpen, setIsOpen] = useState(false)
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate)
-    setIsOpen(false) // Close the Popover after selecting a date
+    setIsOpen(false)
   }
 
   return (
@@ -48,7 +48,7 @@ const DatePicker = ({ date, setDate }: IDataPicker) => {
         <Calendar
           mode="single"
           selected={date}
-          onSelect={handleDateSelect} // Use the handler to set the date and close the Popover
+          onSelect={handleDateSelect}
           initialFocus
         />
       </PopoverContent>

@@ -1,4 +1,4 @@
-import { IOrder } from '@/interfaces/order'
+import { IOrder } from '@/features/orders/interfaces/order'
 import { atom } from 'jotai'
 
 export const atomOrderList = atom<IOrder[]>([])

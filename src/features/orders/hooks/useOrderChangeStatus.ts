@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { OrderStatus } from '@/constants/order'
+import { OrderStatus } from '@/features/orders/constants/order'
 import { SEND_ORDER_CANCEL } from '@/graphql/mutations/orders'
 import { useMutation } from '@apollo/client'
 
@@ -18,7 +18,7 @@ const useOrderChangeStatus = () => {
         throw err
       }
     },
-    [changeOrderStatusMutation] // Dependency array
+    [changeOrderStatusMutation]
   )
 
   return {

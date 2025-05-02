@@ -2,8 +2,8 @@ import { useQuery } from '@apollo/client'
 import { GET_ORDERS_BY_FILTERS } from '@/graphql/queries/orders'
 import { useState } from 'react'
 import { useSetAtom } from 'jotai'
-import { atomOrderGridPage, atomOrderList } from '@/atoms/order'
-import { IOrderFilter } from '@/interfaces/order'
+import { atomOrderGridPage, atomOrderList } from '@/features/orders/atoms/order'
+import { IOrderFilter } from '@/features/orders/interfaces/order'
 
 export const useOrderBy = () => {
   const [filters, setFilters] = useState<IOrderFilter>({})

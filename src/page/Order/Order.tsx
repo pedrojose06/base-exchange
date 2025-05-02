@@ -1,13 +1,13 @@
 import Loading from '@/components/Loading/Loading'
-import OrderDetailField from '@/components/OrderDetailField/OrderDetailField'
+import OrderDetailField from '@/features/orders/components/OrderDetailField/OrderDetailField'
 import { Button } from '@/components/ui/button'
-import useOrderHistoryById from '@/hooks/useOrderHistoryById'
+import useOrderHistoryById from '@/features/orders/hooks/useOrderHistoryById'
 import { lazy, Suspense } from 'react'
 import { FaAngleLeft } from 'react-icons/fa'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const OrderDetailForm = lazy(
-  () => import('@/components/OrderDetailForm/OrderDetailForm')
+  () => import('@/features/orders/components/OrderDetailForm/OrderDetailForm')
 )
 
 interface IOrderHistoryDetail {
@@ -19,7 +19,7 @@ interface IOrderHistoryDetail {
 const Order = () => {
   const { id } = useParams()
   const { data } = useOrderHistoryById(id as string)
-  const navigate = useNavigate() // Initialize the navigate function
+  const navigate = useNavigate()
 
   if (!id || !data) return null
   return (

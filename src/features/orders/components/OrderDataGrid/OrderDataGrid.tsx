@@ -1,13 +1,13 @@
 'use client'
 
-import { useOrders } from '@/hooks/useOrders'
+import { useOrders } from '@/features/orders/hooks/useOrders'
 import { createColumns } from './Columns'
 import { lazy, useEffect, useState } from 'react'
-import DataGrid from '../DataGrid/DataGrid'
-import DataGridPagination from '../DataGridPagination/DataGridPagination'
-import { atomOrderGridPage } from '@/atoms/order'
+import { atomOrderGridPage } from '@/features/orders/atoms/order'
 import { useAtom } from 'jotai'
-import Loading from '../Loading/Loading'
+import Loading from '../../../../components/Loading/Loading'
+import DataGrid from '../../../../components/DataGrid/DataGrid'
+import DataGridPagination from '../../../../components/DataGridPagination/DataGridPagination'
 
 const OrderCancel = lazy(() => import('../OrderCancel/OrderCancel'))
 const OrderDetail = lazy(() => import('../OrderDetail/OrderDetail'))

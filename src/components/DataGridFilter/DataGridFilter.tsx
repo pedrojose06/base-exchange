@@ -8,12 +8,12 @@ import {
   SelectValue,
 } from '../ui/select'
 import { useEffect, useState } from 'react'
-import { useOrderBy } from '@/hooks/useOrderBy'
+import { useOrderBy } from '@/features/orders/hooks/useOrderBy'
 import { Button } from '../ui/button'
-import DatePicker from '../DatePicker/DatePicker'
-import { IOrderFilter } from '@/interfaces/order'
-import { useOrders } from '@/hooks/useOrders'
+import { IOrderFilter } from '@/features/orders/interfaces/order'
+import { useOrders } from '@/features/orders/hooks/useOrders'
 import { FaBroom } from 'react-icons/fa'
+import DatePicker from '../DatePicker/DatePicker'
 
 interface IDataGridFilter {
   setGlobalFilter: (value: string) => void

@@ -4,7 +4,6 @@ import App from './App'
 import './index.css'
 import { client } from './graphql/client'
 
-// Supported in React 18+
 const rootElement = document.getElementById('root')
 if (!rootElement) {
   throw new Error('Root element not found')

@@ -2,8 +2,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import DialogModal from '../DialogModal/DialogModal'
-import { Button } from '../ui/button'
+import { Button } from '../../../../components/ui/button'
 import {
   Form,
   FormControl,
@@ -20,7 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import useOrderCreate from '@/hooks/useOrderCreate'
+import useOrderCreate from '@/features/orders/hooks/useOrderCreate'
+import DialogModal from '../../../../components/DialogModal/DialogModal'
 
 interface IOrderCreate {
   open: boolean
@@ -40,7 +40,6 @@ const instruments = [
   { id: 10, name: 'BRFS3', price: 8.9 },
 ]
 
-// Define the schema using zod
 const orderSchema = z.object({
   instrument: z.string().nonempty('Selecione um instrumento financeiro.'),
   side: z

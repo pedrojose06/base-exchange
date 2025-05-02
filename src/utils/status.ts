@@ -1,4 +1,4 @@
-import { OrderStatus } from '@/constants/order'
+import { OrderStatus } from '@/features/orders/constants/order'
 
 export const getStatusColor = (status: string) => {
   switch (status) {

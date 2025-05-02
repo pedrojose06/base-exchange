@@ -39,7 +39,7 @@ const DataGridPagination = ({
             <PaginationItem key={pageNumber}>
               <PaginationLink
                 href="#"
-                isActive={pageNumber === page} // Pass isActive here
+                isActive={pageNumber === page}
                 onClick={(e) => {
                   e.preventDefault()
                   onPageChange(pageNumber)

@@ -28,7 +28,7 @@ const DatePicker = ({ date, setDate }: IDataPicker) => {
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
-      <PopoverTrigger asChild className="flex-1">
+      <PopoverTrigger asChild className="flex-1 bg-gray-50">
         <Button
           variant={'outline'}
           className={cn(

@@ -23,7 +23,7 @@ const Order = () => {
 
   if (!id || !data) return null
   return (
-    <div className="m-2 rounded-md border border-solid p-0 md:m-16 md:px-24 md:py-12">
+    <div className="m-2 rounded-md border border-solid bg-gray-50 p-0 md:m-16 md:px-24 md:py-12">
       <div className="flex items-center justify-between p-6 ">
         <Button type="button" variant="secondary" onClick={() => navigate('/')}>
           <FaAngleLeft />

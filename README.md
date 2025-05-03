@@ -91,6 +91,6 @@ Pode haver variáveis de ambiente necessárias para configurar a URL da API Grap
 
 
 
-    Após isso, os testes irão inicial e ao final, deve-se ter uma tela de resultados dessa forma:
+    Após isso, os testes serão iniciados e, ao final, deve-se ter uma tela de resultados desta forma:
     ![cypress tests ok](<https://i.imgur.com/jNhBsGo.png>)
 

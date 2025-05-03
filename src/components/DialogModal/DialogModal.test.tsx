@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import DialogModal from './DialogModal'
 
-// Mock Radix UI Dialog components
 vi.mock('@radix-ui/react-dialog', () => ({
   Dialog: ({ children, ...props }: any) => (
     <div data-testid="dialog-root" {...props}>
@@ -54,7 +53,6 @@ describe('DialogModal', () => {
         <span>Only Content</span>
       </DialogModal>
     )
-    // Title and subtitle should not be rendered
     expect(screen.queryByTestId('dialog-title')).not.toBeInTheDocument()
     expect(screen.queryByTestId('dialog-description')?.innerHTML).not.toContain(
       'Test Subtitle'

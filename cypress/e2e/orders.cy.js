@@ -21,6 +21,41 @@ describe('Orders E2E Test', () => {
     )
   })
 
+  describe('Create Orders', () => {
+    it('should fill the form and create a new Venda order', () => {
+      cy.contains('Nova Ordem').click()
+      cy.get('[data-cy=select-instrument]').click()
+      cy.get('[data-slot="select-item"]').contains('PETR4').click()
+      cy.contains('Selecione o tipo de ordem').click()
+      cy.get('[data-slot="select-item"]').contains('Venda').click()
+      cy.get('input[placeholder="Quantidade"]').should('not.be.disabled')
+      cy.get('input[placeholder="Quantidade"]').type('15')
+      cy.get('button').contains('Criar Ordem').click()
+    })
+
+    it('should fill the form and create a new Compra order', () => {
+      cy.contains('Nova Ordem').click()
+      cy.get('[data-cy=select-instrument]').click()
+      cy.get('[data-slot="select-item"]').contains('PETR4').click()
+      cy.contains('Selecione o tipo de ordem').click()
+      cy.get('[data-slot="select-item"]').contains('Compra').click()
+      cy.get('input[placeholder="Quantidade"]').should('not.be.disabled')
+      cy.get('input[placeholder="Quantidade"]').type('10')
+      cy.get('button').contains('Criar Ordem').click()
+    })
+
+    it('should show messages error when fill form with invalid data', () => {
+      cy.contains('Nova Ordem').click()
+      cy.get('input[placeholder="Quantidade"]').should('not.be.disabled')
+      cy.get('input[placeholder="Quantidade"]').type('-1')
+      cy.get('button').contains('Criar Ordem').click()
+      cy.contains('Selecione um instrumento financeiro.').should('be.visible')
+      cy.contains('Selecione o tipo de ordem.').should('be.visible')
+      cy.contains('A quantidade deve ser maior que 0').should('be.visible')
+      cy.contains('O preço deve ser maior que 0.').should('be.visible')
+    })
+  })
+
   describe('Order Grid', () => {
     it('should open grid with orders', () => {
       cy.get('[data-cy=orders-data-grid]', { timeout: 10000 }).should('exist')
@@ -57,41 +92,6 @@ describe('Orders E2E Test', () => {
       cy.contains('Detalhes da ordem').should('be.visible')
       cy.get('button').click()
       cy.contains('Orderns Recentes').should('be.visible')
-    })
-  })
-
-  describe('Create Orders', () => {
-    it('should fill the form and create a new Venda order', () => {
-      cy.contains('Nova Ordem').click()
-      cy.get('[data-cy=select-instrument]').click()
-      cy.get('[data-slot="select-item"]').contains('PETR4').click()
-      cy.contains('Selecione o tipo de ordem').click()
-      cy.get('[data-slot="select-item"]').contains('Venda').click()
-      cy.get('input[placeholder="Quantidade"]').should('not.be.disabled')
-      cy.get('input[placeholder="Quantidade"]').type('15')
-      cy.get('button').contains('Criar Ordem').click()
-    })
-
-    it('should fill the form and create a new Compra order', () => {
-      cy.contains('Nova Ordem').click()
-      cy.get('[data-cy=select-instrument]').click()
-      cy.get('[data-slot="select-item"]').contains('PETR4').click()
-      cy.contains('Selecione o tipo de ordem').click()
-      cy.get('[data-slot="select-item"]').contains('Compra').click()
-      cy.get('input[placeholder="Quantidade"]').should('not.be.disabled')
-      cy.get('input[placeholder="Quantidade"]').type('10')
-      cy.get('button').contains('Criar Ordem').click()
-    })
-
-    it('should show messages error when fill form with invalid data', () => {
-      cy.contains('Nova Ordem').click()
-      cy.get('input[placeholder="Quantidade"]').should('not.be.disabled')
-      cy.get('input[placeholder="Quantidade"]').type('-1')
-      cy.get('button').contains('Criar Ordem').click()
-      cy.contains('Selecione um instrumento financeiro.').should('be.visible')
-      cy.contains('Selecione o tipo de ordem.').should('be.visible')
-      cy.contains('A quantidade deve ser maior que 0').should('be.visible')
-      cy.contains('O preço deve ser maior que 0.').should('be.visible')
     })
   })
 

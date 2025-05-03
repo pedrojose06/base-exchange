@@ -67,10 +67,30 @@ Pode haver variáveis de ambiente necessárias para configurar a URL da API Grap
     yarn test
     ```
 
+    Após rodar os testes deve ter esses resultados:
+
+    ![unit tests ok](<https://i.imgur.com/m5JzQx0.png>)
+
 2.  **Testes de Ponta a Ponta (Cypress):**
     ```bash
     npm run cypress
     # ou
     yarn cypress
     ```
+
+
+
     Isso abrirá a interface do Cypress, onde você poderá executar os testes.
+    Selecione E2E Testing
+    ![interface inicial cypress](<https://i.imgur.com/Ib8krd8.png>)
+
+
+
+    Selecione o Browser de sua preferencia (para desenvolvimentos e testes foi utilizado o Chrome)
+    ![selecionar browser](<https://i.imgur.com/iOGPlgV.png>)
+
+
+
+    Após isso, os testes irão inicial e ao final, deve-se ter uma tela de resultados dessa forma:
+    ![cypress tests ok](<https://i.imgur.com/jNhBsGo.png>)
+

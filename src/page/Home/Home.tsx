@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <div className="min-h-dvh p-4">
       <h1 className="p-4 text-center font-bold text-2xl text-[#ba94f2]">
-        Orderns Recentes
+        Ordens Recentes
       </h1>
       <div className="flex justify-end p-4">
         <Button

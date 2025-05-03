@@ -91,7 +91,7 @@ describe('Orders E2E Test', () => {
       cy.contains('Ver Histórico').click()
       cy.contains('Detalhes da ordem').should('be.visible')
       cy.get('button').click()
-      cy.contains('Orderns Recentes').should('be.visible')
+      cy.contains('Ordens Recentes').should('be.visible')
     })
   })
 

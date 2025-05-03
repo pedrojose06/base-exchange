@@ -1,54 +1,76 @@
-# React + TypeScript + Vite
+# Base Exchange
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-18+-blue.svg)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-%23007ACC.svg?style=flat&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![GraphQL](https://img.shields.io/badge/GraphQL-E10098?style=flat&logo=graphql&logoColor=white)](https://graphql.org/)
+[![Vitest](https://img.shields.io/badge/%F0%9F%AA%9E-Vitest-%23646CFF)](https://vitest.dev/)
+[![Cypress](https://img.shields.io/badge/%F0%9F%8E%AE-Cypress-%23172026)](https://www.cypress.io/)
+[![Jotai](https://img.shields.io/badge/Jotai-orange)](https://jotai.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-%2338B2AC.svg?style=flat&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Currently, two official plugins are available:
+Este é um projeto React para controle de ordens, utilizando TypeScript para tipagem estática, GraphQL para a comunicação com a API, Vitest e Cypress para testes, Jotai para gerenciamento de estado e Tailwind CSS para estilização.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades
 
-## Expanding the ESLint configuration
+* **Cadastrar nova ordem:** Permite cadastrar uma nova ordem que virá com status "Aberta", porém, caso possua uma ordem contrária do mesmo instrumento "Aberta" ou "Pendente", essa nova ordem executará parcialmente ou totalmente caso tenham ordem com uma quantidade necessária para tal.
+* **Visualzar detalhes de uma ordem:** É possivel visualizar os detalhes de uma ordem criada e também o historico de execuções da mesma.
+* **Cancelar uma ordem:** É possivel cancelar uma ordem "Aberta" ou "Pendente" tornando-a como "Cancelada".
+* **Filtrar ordems:** É possível executar filtros para facilitar encontrar uma determinada ordem.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Primeiros Passos
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Pré-requisitos
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+* **Node.js**
+* **npm** ou **yarn** (gerenciadores de pacotes)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Instalação
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+1.  Clone o repositório:
+    ```bash
+    git clone https://github.com/pedrojose06/base-exchange
+    cd base-exchange
+    ```
+
+2.  Instale as dependências usando npm:
+    ```bash
+    npm install
+    ```
+    ou usando yarn:
+    ```bash
+    yarn install
+    ```
+
+### Configuração
+
+Pode haver variáveis de ambiente necessárias para configurar a URL da API GraphQL ou outras configurações. Verifique se há um arquivo `.env.example` ou instruções específicas sobre configuração no projeto. Crie um arquivo `.env` na raiz do projeto com as configurações necessárias.
+
+### Executando o Projeto
+
+1.  Inicie o servidor de desenvolvimento:
+    ```bash
+    npm run dev
+    # ou
+    yarn dev
+    ```
+    Para que essa aplicação funcione completamente é necessário iniciar a API construida para ele, que deve rodar na porta: `http://localhost:3000`.
+
+[Repositório da API (backend)](https://github.com/pedrojose06/base-exchange-api)
+
+### Executando os Testes
+
+1.  **Testes Unitários (Vitest):**
+    ```bash
+    npm run test
+    # ou
+    yarn test
+    ```
+
+2.  **Testes de Ponta a Ponta (Cypress):**
+    ```bash
+    npm run cypress
+    # ou
+    yarn cypress
+    ```
+    Isso abrirá a interface do Cypress, onde você poderá executar os testes.

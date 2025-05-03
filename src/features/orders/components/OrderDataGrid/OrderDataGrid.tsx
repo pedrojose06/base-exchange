@@ -52,7 +52,7 @@ export function OrderDataGrid() {
   }
 
   return (
-    <div className="rounded-md border p-4">
+    <div data-cy="orders-data-grid" className="rounded-md border p-4">
       <DataGrid content={orders} columns={columns} />
 
       <DataGridPagination

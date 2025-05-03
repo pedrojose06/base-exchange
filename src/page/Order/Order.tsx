@@ -30,7 +30,7 @@ const Order = () => {
         </Button>
 
         <h1 className="flex-1 text-center font-bold text-2xl text-[#ba94f2]">
-          Order Details
+          Detalhes da ordem
         </h1>
       </div>
       <div className="p-6">

@@ -29,8 +29,13 @@ export function OrderDataGrid() {
   }
 
   const closeOrderDetails = () => {
-    setSelectedOrderId(null)
     setIsOrderDetailOpen(false)
+    setSelectedOrderId(null)
+  }
+
+  const closeOrderCancel = () => {
+    setIsOrderCancelOpen(false)
+    setSelectedOrderId(null)
   }
 
   useEffect(() => {
@@ -64,7 +69,6 @@ export function OrderDataGrid() {
         onPageChange={setActualPage}
         className="p-4"
       />
-
       {selectedOrderId && isOrderDetailOpen && (
         <OrderDetail
           orderId={selectedOrderId}
@@ -77,7 +81,7 @@ export function OrderDataGrid() {
         <OrderCancel
           orderId={selectedOrderId}
           open={isOrderCancelOpen}
-          onClose={closeOrderDetails}
+          onClose={closeOrderCancel}
         />
       )}
     </div>

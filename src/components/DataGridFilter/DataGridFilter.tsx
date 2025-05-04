@@ -72,12 +72,14 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
     table.getColumn(column)?.setFilterValue(value)
   }
 
-  const clearFilter = (column: string) => {
+  const clearFilter = async (column: string) => {
     setFilterValues((prev) => {
       const updatedFilters = { ...prev, [column]: column === 'side' ? 0 : '' }
       setDebouncedFilters(updatedFilters)
       return updatedFilters
     })
+    const newData = await refetch()
+    setOrderList(newData.data.orders.orders)
     table.getColumn(column)?.setFilterValue('')
   }
 

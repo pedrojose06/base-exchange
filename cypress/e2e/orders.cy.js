@@ -219,6 +219,28 @@ describe('Orders E2E Test', () => {
         '1'
       )
     })
+    it('should clear all fields after click "Limpar todos filtros"', () => {
+      cy.get('input[placeholder="Filtrar por ID"]').click().type('1')
+      cy.get('input[placeholder="Filtrar por Instrumento"]')
+        .click()
+        .type('PETR4')
+      cy.contains('Compra/Venda').click()
+      cy.get('[data-slot="select-item"]').contains('Compra').click()
+      cy.contains('Selecione Status').click()
+      cy.get('[data-slot="select-item"]').contains('Executada').click()
+      cy.get(':nth-child(5) > .border').click()
+      cy.get(':nth-child(1) > :nth-child(7) > .rdp-button_reset').click()
+
+      cy.get('button').contains('Limpar todos filtros').click()
+      cy.get('input[placeholder="Filtrar por ID"]').should('have.value', '')
+      cy.get('input[placeholder="Filtrar por Instrumento"]').should(
+        'have.value',
+        ''
+      )
+      cy.get('button').contains('Compra/Venda')
+      cy.get('button').contains('Selecione Status')
+      cy.get(':nth-child(5) > .border > span').contains('Escolha uma data')
+    })
   })
 
   describe('Change Order Status', () => {

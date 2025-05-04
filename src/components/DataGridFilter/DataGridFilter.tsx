@@ -14,6 +14,8 @@ import { IOrderFilter } from '@/features/orders/interfaces/order'
 import { useOrders } from '@/features/orders/hooks/useOrders'
 import { FaBroom } from 'react-icons/fa'
 import DatePicker from '../DatePicker/DatePicker'
+import { useSetAtom } from 'jotai'
+import { atomOrderList } from '@/features/orders/atoms/order'
 
 interface IDataGridFilter {
   setGlobalFilter: (value: string) => void
@@ -31,8 +33,9 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
 
   const { executeFilters } = useOrderBy()
   const { refetch } = useOrders({ limit: 5, page: 1 })
-
+  const setOrderList = useSetAtom(atomOrderList)
   const [debouncedFilters, setDebouncedFilters] = useState(filterValues)
+  const [date, setDate] = useState<Date>()
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -43,6 +46,17 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
       clearTimeout(handler)
     }
   }, [debouncedFilters])
+
+  useEffect(() => {
+    if (date) {
+      const formattedDate = date.toISOString().split('T')[0]
+      setFilterValues((prev) => {
+        const updatedFilters = { ...prev, createdAt: formattedDate }
+        setDebouncedFilters(updatedFilters)
+        return updatedFilters
+      })
+    }
+  }, [date])
 
   const handleFilterChange = (column: string, value: string) => {
     setFilterValues((prev) => {
@@ -67,7 +81,7 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
     table.getColumn(column)?.setFilterValue('')
   }
 
-  const clearAllFilters = () => {
+  const clearAllFilters = async () => {
     const cleanFilters = {
       id: '',
       instrument: '',
@@ -80,22 +94,12 @@ const DataGridFilter = ({ setGlobalFilter, table }: IDataGridFilter) => {
       setDebouncedFilters(updatedFilters)
       return updatedFilters
     })
-    refetch()
+
+    setDate(undefined)
+    const newData = await refetch()
+    setOrderList(newData.data.orders.orders)
     table.resetColumnFilters()
   }
-
-  const [date, setDate] = useState<Date>()
-
-  useEffect(() => {
-    if (date) {
-      const formattedDate = date.toISOString().split('T')[0]
-      setFilterValues((prev) => {
-        const updatedFilters = { ...prev, createdAt: formattedDate }
-        setDebouncedFilters(updatedFilters)
-        return updatedFilters
-      })
-    }
-  }, [date])
 
   return (
     <div className="flex flex-col gap-4 py-4">

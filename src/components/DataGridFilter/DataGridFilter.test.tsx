@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi } from 'vitest'
 import DataGridFilter from './DataGridFilter'
 
@@ -21,6 +21,18 @@ vi.mock('../DatePicker/DatePicker', () => ({
       type="date"
     />
   ),
+}))
+
+vi.mock('@/features/orders/hooks/useOrders', () => ({
+  useOrders: () => ({
+    refetch: vi.fn().mockResolvedValue({
+      data: {
+        orders: {
+          orders: [],
+        },
+      },
+    }),
+  }),
 }))
 
 describe('DataGridFilter', () => {
@@ -60,13 +72,14 @@ describe('DataGridFilter', () => {
     expect(getColumn).toHaveBeenCalledWith('id')
   })
 
-  it('calls resetColumnFilters and refetch when clearing all filters', () => {
+  it('calls resetColumnFilters and refetch when clearing all filters', async () => {
     render(<DataGridFilter setGlobalFilter={setGlobalFilter} table={table} />)
     const btn = screen.getByText('Limpar todos filtros')
     fireEvent.click(btn)
-    expect(resetColumnFilters).toHaveBeenCalled()
+    await waitFor(() => {
+      expect(resetColumnFilters).toHaveBeenCalled()
+    })
   })
-
   it('renders and interacts with the date picker', () => {
     render(<DataGridFilter setGlobalFilter={setGlobalFilter} table={table} />)
     const dateInput = screen.getByTestId('datepicker')

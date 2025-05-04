@@ -11,6 +11,18 @@
 
 Este é um projeto React para controle de ordens, utilizando TypeScript para tipagem estática, GraphQL para a comunicação com a API, Vitest e Cypress para testes, Jotai para gerenciamento de estado e Tailwind CSS para estilização.
 
+## Por que escolhi essas tecnologias?
+
+- **React:** É uma das bibliotecas mais populares para construção de interfaces modernas, com grande comunidade, excelente performance e fácil integração com outras ferramentas.
+- **TypeScript:** Proporciona tipagem estática ao JavaScript, aumentando a segurança, produtividade e facilitando a manutenção do código, especialmente em projetos de médio e grande porte.
+- **GraphQL:** Permite consultas flexíveis e eficientes à API, reduzindo o tráfego de dados e facilitando a evolução do backend sem impactar o frontend.
+- **Vitest:** Framework de testes rápido, moderno e com ótima integração ao ecossistema Vite/React, facilitando a escrita e execução de testes unitários.
+- **Cypress:** Ferramenta robusta para testes end-to-end, garantindo que a aplicação funcione como esperado do ponto de vista do usuário final.
+- **Jotai:** Gerenciador de estado simples e reativo, ideal para aplicações React modernas, proporcionando uma abordagem minimalista e eficiente para controle de estado global.
+- **Tailwind CSS:** Framework utilitário para estilização, que acelera o desenvolvimento, garante consistência visual e facilita a manutenção do CSS.
+
+Essas escolhas garantem produtividade, qualidade de código, facilidade de manutenção e uma ótima experiência tanto para desenvolvedores quanto para usuários finais.
+
 ## Funcionalidades
 
 * **Cadastrar nova ordem:** Permite cadastrar uma nova ordem que virá com status "Aberta", porém, caso possua uma ordem contrária do mesmo instrumento "Aberta" ou "Pendente", essa nova ordem executará parcialmente ou totalmente caso tenham ordem com uma quantidade necessária para tal.
@@ -58,6 +70,8 @@ Pode haver variáveis de ambiente necessárias para configurar a URL da API Grap
 
 [Repositório da API (backend)](https://github.com/pedrojose06/base-exchange-api)
 
+
+
 ### Executando os Testes
 
 1.  **Testes Unitários (Vitest):**
@@ -93,4 +107,39 @@ Pode haver variáveis de ambiente necessárias para configurar a URL da API Grap
 
     Após isso, os testes serão iniciados e, ao final, deve-se ter uma tela de resultados desta forma:
     ![cypress tests ok](<https://i.imgur.com/jNhBsGo.png>)
+
+### Utilizando o projeto
+
+  Ao abrir o projeto é possivel se deparar com a página inicial:
+    ![cypress tests ok](<https://i.imgur.com/J7ZyNae.png>)
+
+  Ao clicar em "Nova Ordem", podemos inserir os dados de uma nova ordem de Compra e Venda, e com isso possuímos alguns cenários.
+  - Nova ordem nao possui uma ordem contrária existente: Ordem é inserida com status Aberta
+  - Nova ordem possui ordens contrárias, porém insuficiente para executa-la totalmente: Nova ordem é inserida com status de pendente e ordem já existente, é alterada para executada.
+  - Nova ordem possui ordens contrárias, porém quantidade na nova ordem não executa totalmente a ordem existente: Nova ordem é inserida como Executada e ordem já existente fica como pendente
+    ![cypress tests ok](<https://i.imgur.com/LogNJov.png>)
+
+  Nessa mesma tela, possuímos campos quem podem filtrar determinadas ordens:
+    ![cypress tests ok](<https://i.imgur.com/lYr33VU.png>)
+
+  Ao encontrar uma ordem que queria vizualizar mais dados, é possuvel acessa-los utilizando esse botão:
+    ![cypress tests ok](<https://i.imgur.com/tnK3Tww.png>)
+
+  E com isso uma Dialog irá aparecer com algumas informações da ordem:
+    ![cypress tests ok](<https://i.imgur.com/3TFCrE3.png>)
+
+  Para visualiar o histórico de execuções de uma ordem, é necessário acessar a página de histório nesse link:
+    ![cypress tests ok](<https://i.imgur.com/MgoAwws.png>)
+
+  O histórico fica na parte de baixo da página:
+    ![cypress tests ok](<https://i.imgur.com/NeQoNEK.png>)
+
+  Para cancelar uma ordem, é possivel, acessando esse botão no datagrid:
+    ![cypress tests ok](<https://i.imgur.com/rKtCM7J.png>)
+
+  Uma Dialog irá aparecer, e para cancelar, precisa apenas clicar em sim:
+    ![cypress tests ok](<https://i.imgur.com/UQq9hHD.png>)
+
+  Após confirmar o canelamento, no datagrid, a ordem agora, estará com status de Cancelada
+    ![cypress tests ok](<https://i.imgur.com/6UE4eKZ.png>)
 
